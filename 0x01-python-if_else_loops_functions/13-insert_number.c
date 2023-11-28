@@ -25,6 +25,14 @@ listint_t *insert_node(listint_t **head, int number)
 		return (node);
 	}
 
+	/* handle insertion at the beginning of the list */
+	if (node->n < (*head)->n)
+	{
+		node->next = *head;
+		*head = node;
+		return (node);
+	}
+
 	/* find the correct position to insert at */
 	while (current->next != NULL && node->n > current->next->n)
 		current = current->next;
