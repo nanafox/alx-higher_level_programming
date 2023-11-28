@@ -15,7 +15,4 @@ def islower(c: str) -> bool:
         If the the argument received is a non-string, the results will
         be unexpected
     """
-    try:
-        return ord("a") <= ord(c) <= ord("z")
-    except TypeError:
-        print(f"Expected a string! {c} is not a string")
+    return ord("a") <= ord(c) <= ord("z")
