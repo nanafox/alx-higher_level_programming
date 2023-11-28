@@ -11,8 +11,5 @@ def print_last_digit(number: int) -> int:
     Returns:
         int: the last digit of 'number'
     """
-    try:
-        print(abs(number) % 10, end="")
-        return abs(number) % 10
-    except TypeError:
-        print("Expected a numeric value")
+    print(abs(number) % 10, end="")
+    return abs(number) % 10
