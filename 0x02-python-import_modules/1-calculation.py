@@ -8,8 +8,8 @@ def perform_calculation(a: int, b: int) -> None:
     Performs simple math operations
 
     Args:
-        x (int): operand 1
-        y (int): operand 2
+        a (int): operand 1
+        b (int): operand 2
     """
     operators = {"+": add, "-": sub, "*": mul, "/": div}
 
