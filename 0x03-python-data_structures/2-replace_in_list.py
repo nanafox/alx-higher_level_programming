@@ -15,18 +15,12 @@ def replace_in_list(my_list, idx, element):
         The original list is not modified
     """
     # check for invalid index positions, if found, don't modify the list
-    if 0 >= idx >= len(my_list):
+    if not (0 <= idx < len(my_list)):
         return my_list
 
-    for i, data in enumerate(my_list):
+    for i in range(len(my_list)):
         if i == idx:
-            # check if the replacement value os the same as the old value
-            if data == element:
-                return my_list
+            # update the list with the replacement's value
+            my_list[i] = element
 
-            break  # index found
-
-    # update the list with the replacement's value
-    my_list[i] = element
-
-    return my_list
+            return my_list
