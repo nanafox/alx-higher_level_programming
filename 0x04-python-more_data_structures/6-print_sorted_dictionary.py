@@ -8,5 +8,6 @@ def print_sorted_dictionary(a_dictionary: dict) -> None:
     Args:
         a_dictionary (dict): the dictionary to print
     """
-    for key, value in sorted(a_dictionary.items()):
-        print(f"{key}: {value}")
+    if a_dictionary:
+        for key, value in sorted(a_dictionary.items()):
+            print(f"{key}: {value}")
