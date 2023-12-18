@@ -13,7 +13,7 @@ def safe_print_integer(value) -> bool:
     """
     try:
         print("{:d}".format(value))
-    except ValueError:
+    except (ValueError, TypeError):
         return False  # the value was not an integer
 
     # the value was indeed an integer and was printed safely
