@@ -25,6 +25,7 @@ void print_python_bytes(PyObject *p)
 
 	/* ensure we are getting at most  10 bytes */
 	limit = (size >= 10) ? 10 : size + 1;
+
 	fprintf(stdout, "  size: %ld\n", size);
 	fprintf(stdout, "  trying string: %s\n", string);
 	fprintf(stdout, "  first %ld bytes:", limit);
@@ -46,6 +47,8 @@ void print_python_bytes(PyObject *p)
 void print_python_float(PyObject *p)
 {
 	fprintf(stdout, "[.] float object info\n");
+
+    /* check for Float objects */
 	if (!PyFloat_Check(p))
 	{
 		fprintf(stdout, "  [ERROR] Invalid Float Object\n");
@@ -54,10 +57,16 @@ void print_python_float(PyObject *p)
 
 	/* print the floating-point value */
 	PyFloatObject *val = ((PyFloatObject *)p);
+
+    /* ensure the returned number does not look like an integer */
 	char *py_double_str =
 		PyOS_double_to_string(val->ob_fval, 'r', 0, Py_DTSF_ADD_DOT_0, NULL);
+
+    /* print the result and flush stdout */
 	fprintf(stdout, "  value: %s\n", py_double_str);
 	fflush(stdout);
+
+    /* cleanup memory for the received string */
 	PyMem_Free(py_double_str);
 }
 
@@ -78,16 +87,17 @@ void print_python_list(PyObject *p)
 		fprintf(stdout, "  [ERROR] Invalid List Object\n");
 		return;
 	}
+
 	fprintf(stdout, "[*] Size of the Python List = %ld\n", size);
 	fprintf(stdout, "[*] Allocated = %ld\n", list->allocated);
 
+    /* print information about all list items */
 	for (ssize_t i = 0; i < size; i++)
 	{
 		PyObject *obj = list->ob_item[i];
 
 		fprintf(stdout, "Element %ld: %s\n", i, (obj->ob_type)->tp_name);
 
-		/* print the byte information of the current element */
 		if (PyBytes_Check(obj))
 			print_python_bytes(obj);
 		else if (PyFloat_Check(obj))
