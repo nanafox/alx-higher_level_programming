@@ -1,0 +1,19 @@
+*
+!/**/
+
+__*
+.*/
+
+# add these
+
+!*.h
+!*-*?*.c
+!*.a
+!Makefile
+!*.md
+!*-*?*.py
+!.gitignore
+
+# ignore these
+main.c
+_putchar.c
