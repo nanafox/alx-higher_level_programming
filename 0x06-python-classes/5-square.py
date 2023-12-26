@@ -16,6 +16,26 @@ class Square:
 
         Args:
             size (int, optional): the size of the square. Defaults to 0.
+        """
+        self.size = size
+
+    @property
+    def size(self) -> int:
+        """
+        Retrieves the size of the square
+
+        Returns:
+            int: the size of the square
+        """
+        return self.__size
+
+    @size.setter
+    def size(self, size) -> None:
+        """
+        Sets or updates the size of the square
+
+        Args:
+            size (int): the size of the square
 
         Raises:
             TypeError: when the size received is not an integer
@@ -39,26 +59,6 @@ class Square:
             int: the area of the square
         """
         return self.__size**2
-
-    @property
-    def size(self) -> int:
-        """
-        Retrieves the size of the square
-
-        Returns:
-            int: the size of the square
-        """
-        return self.__size
-
-    @size.setter
-    def size(self, size):
-        """
-        Sets or updates the size of the square
-
-        Args:
-            size (int): the size of the square
-        """
-        self.__init__(size)
 
     def my_print(self) -> None:
         """

@@ -16,20 +16,8 @@ class Square:
 
         Args:
             size (int, optional): the size of the square. Defaults to 0.
-
-        Raises:
-            TypeError: when the size received is not an integer
-            ValueError: when the size if not a positive integer
         """
-        # size must be an integer
-        if not isinstance(size, int):
-            raise TypeError("size must be an integer")
-        # it should be greater than or equal to zero
-        if size < 0:
-            raise ValueError("size must be >= 0")
-
-        # set the size of the Square if all goes well
-        self.__size = size
+        self.size = size
 
     def __lt__(self, other) -> bool:
         return self.area() < other.area()
@@ -69,11 +57,23 @@ class Square:
         return self.__size
 
     @size.setter
-    def size(self, size):
+    def size(self, size) -> None:
         """
         Sets or updates the size of the square
 
         Args:
             size (int): the size of the square
+
+        Raises:
+            TypeError: when the size received is not an integer
+            ValueError: when the size if not a positive integer
         """
-        self.__init__(size)
+        # size must be an integer
+        if not isinstance(size, int):
+            raise TypeError("size must be an integer")
+        # it should be greater than or equal to zero
+        if size < 0:
+            raise ValueError("size must be >= 0")
+
+        # set the size of the Square if all goes well
+        self.__size = size

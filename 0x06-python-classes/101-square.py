@@ -18,32 +18,9 @@ class Square:
             size (int, optional): the size of the square. Defaults to 0.
             position (tuple, optional): the coordinates of the square.
             Defaults to (0, 0)
-
-        Raises:
-            TypeError: when either the size or the any of the value in
-            the position argument is not an integer.
-            This error is also raised when position is not a 2-tuple
-            ValueError: when the size if not a positive integer
         """
-        # size must be an integer
-        if not isinstance(size, int):
-            raise TypeError("size must be an integer")
-
-        # it should be greater than or equal to zero
-        if size < 0:
-            raise ValueError("size must be >= 0")
-
-        # ensure we are receiving a 2-tuple
-        if not isinstance(position, tuple) or len(position) < 2:
-            raise TypeError("position must be a tuple of 2 positive integers")
-
-        # ensure each element in the 2-tuple is an integer as well
-        if sum(1 for i in position if isinstance(i, int) and i >= 0) != 2:
-            raise TypeError("position must be a tuple of 2 positive integers")
-
-        # set the size of the Square if all goes well
-        self.__size = size
-        self.__position = position
+        self.size = size
+        self.position = position
 
     def __str__(self) -> str:
         """
@@ -71,8 +48,20 @@ class Square:
 
         Args:
             value (int): the size of the square
+
+        Raises:
+            TypeError: when either the size
+            ValueError: when the size if not a positive integer
         """
-        self.__init__(value, self.__position)
+        # size must be an integer
+        if not isinstance(value, int):
+            raise TypeError("size must be an integer")
+
+        # it should be greater than or equal to zero
+        if value < 0:
+            raise ValueError("size must be >= 0")
+
+        self.__size = value
 
     @property
     def position(self) -> "tuple[int, int]":
@@ -92,8 +81,20 @@ class Square:
         Args:
             position (tuple[int, int]): a 2-tuple containing the
             coordinates of the square
+
+        Raise:
+            TypeError: when the argument received is not a 2-tuple or if any of
+            the values in the 2-tuple is not an integer
         """
-        self.__init__(self.__size, value)
+        # ensure we are receiving a 2-tuple
+        if not isinstance(value, tuple) or len(value) < 2:
+            raise TypeError("position must be a tuple of 2 positive integers")
+
+        # ensure each element in the 2-tuple is an integer as well
+        if sum(1 for i in value if isinstance(i, int) and i >= 0) != 2:
+            raise TypeError("position must be a tuple of 2 positive integers")
+
+        self.__position = value
 
     @property
     def __custom_print_with_position(self) -> str:
@@ -105,7 +106,7 @@ class Square:
             with the width and height if applicable
         """
         if self.__size == 0:
-            return ""  # there's nothing do here
+            return ""  # there's nothing to do here
 
         # this will hold the string representation we want to print
         custom_str = "\n" * self.__position[1]  # update it with the height
