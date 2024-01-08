@@ -1,1 +1,3 @@
 *main.*
+!tests/*.txt
+!tests/*.py
