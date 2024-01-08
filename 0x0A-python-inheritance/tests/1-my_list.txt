@@ -1,7 +1,7 @@
 >>> MyList = __import__('1-my_list').MyList
 
 
-==== Instantiate and use ====
+==== Instantiate and use (Expected general use) ====
 
 >>> my_list = MyList()
 >>> my_list.append(4)
@@ -104,3 +104,39 @@ IndexError: list index out of range
 Traceback (most recent call last):
 ...
 NameError: name 'add_list' is not defined
+
+>>> add_list.print_sorted()
+Traceback (most recent call last):
+...
+NameError: name 'add_list' is not defined
+
+==== Invalid argument ====
+
+>>> new_list = MyList(3)
+Traceback (most recent call last):
+...
+TypeError: 'int' object is not iterable
+
+
+==== Test Negative Numbers ====
+
+>>> neg_list = MyList([-4, -2, -1, -9, -3, -5])
+>>> neg_list.insert(0, -98)
+>>> neg_list.print_sorted()
+[-98, -9, -5, -4, -3, -2, -1]
+>>> neg_list
+[-98, -4, -2, -1, -9, -3, -5]
+
+
+==== Test same numbers ====
+
+>>> same_numbers = MyList([0, 0, 0, 0])
+>>> same_numbers.print_sorted()
+[0, 0, 0, 0]
+
+
+==== Test empty list ====
+
+>>> empty = MyList()
+>>> empty.print_sorted()
+[]
