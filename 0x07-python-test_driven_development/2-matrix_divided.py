@@ -6,7 +6,7 @@ divisor
 """
 
 
-def matrix_divided(matrix: list[list], div: int | float) -> list[list]:
+def matrix_divided(matrix: "list[list]", div: "int | float") -> "list[list]":
     """
     Divides all elements of a matrix.
 

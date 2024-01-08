@@ -8,7 +8,7 @@ TypeError which is raised when the operands fail to be an integer.
 """
 
 
-def add_integer(a: float | int, b: float | int = 98) -> int:
+def add_integer(a: "float | int", b: "float | int" = 98) -> int:
     """Returns the sum of two integers.
 
     Args:
