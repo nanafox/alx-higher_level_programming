@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+"""A module with a function to add 2 matrices."""
+
 
 def matrix_mul(m_a, m_b):
     """
