@@ -3,7 +3,7 @@
 """A module with a function that prints a square with the character '#'"""
 
 
-def print_square(size: int | float) -> None:
+def print_square(size: "int | float") -> None:
     """
     Prints a square with the character '#'.
 
