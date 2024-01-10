@@ -37,9 +37,6 @@ def update_json_file(args, json_file: str = "add_item.json") -> None:
 
     save_to_json_file(py_list, json_file)
 
-    # print the current JSON representation of the list
-    print(json.dumps(py_list))
-
 
 if __name__ == "__main__":
     update_json_file(sys.argv[1:])
