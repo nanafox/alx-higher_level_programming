@@ -17,3 +17,4 @@ __*
 # ignore these
 main.c
 _putchar.c
+*main.py
