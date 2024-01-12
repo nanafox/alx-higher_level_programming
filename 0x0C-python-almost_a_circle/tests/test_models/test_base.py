@@ -5,7 +5,7 @@ from models.base import Base
 import unittest
 
 
-class TestBaseClass(unittest.TestCase, Base):
+class TestBaseClass(unittest.TestCase):
     """Tests the Base class."""
 
     b1 = Base()
