@@ -174,3 +174,12 @@ class Rectangle(Base):
         """
         for _ in range(self.height):
             print("#" * self.width)
+
+    def update(self, *args) -> None:
+        """
+        Updates attributes with the values in the provided `args`.
+        """
+        keys = list(self.__dict__)
+
+        for i, arg in enumerate(args):
+            self.__dict__[keys[i]] = arg
