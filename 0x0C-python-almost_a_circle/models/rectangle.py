@@ -175,11 +175,19 @@ class Rectangle(Base):
         for _ in range(self.height):
             print("#" * self.width)
 
-    def update(self, *args) -> None:
+    def update(self, *args, **kwargs) -> None:
         """
         Updates attributes with the values in the provided `args`.
         """
-        keys = list(self.__dict__)
+        # attempt to use the *args if it's present and not empty
+        if args is not None and len(args) > 0:
+            keys = list(self.__dict__)
 
-        for i, arg in enumerate(args):
-            self.__dict__[keys[i]] = arg
+            for i, arg in enumerate(args):
+                self.__dict__[keys[i]] = arg
+
+            return  # we are done here if the *args was not empty, return
+
+        # use the keyword arguments instead since the *args was unavailable
+        for key, value in kwargs.items():
+            setattr(self, key, value)
