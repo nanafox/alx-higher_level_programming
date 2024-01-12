@@ -27,6 +27,18 @@ class Rectangle(Base):
         self.x = x
         self.y = y
 
+    def __str__(self) -> str:
+        """
+        Returns information about the Rectangle instance.
+
+        Returns:
+            str: Information about the Rectangle instance.
+        """
+        return (
+            f"[{self.__class__.__name__}] ({self.id}) "
+            f"{self.x}/{self.y} - {self.width}/{self.height}"
+        )
+
     @property
     def width(self) -> int:
         """
@@ -158,7 +170,7 @@ class Rectangle(Base):
 
     def display(self) -> None:
         """
-        Prints the visual of the Rectangle instance with the `#` chatacter.
+        Prints the visual of the Rectangle instance with the `#` character.
         """
         for _ in range(self.height):
             print("#" * self.width)
