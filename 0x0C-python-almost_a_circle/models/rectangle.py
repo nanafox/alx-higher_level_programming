@@ -172,7 +172,11 @@ class Rectangle(Base):
         """
         Prints the visual of the Rectangle instance with the `#` character.
         """
+        for _ in range(self.y):
+            print()
+
         for _ in range(self.height):
+            print(' ' * self.x, end="")
             print("#" * self.width)
 
     def update(self, *args, **kwargs) -> None:
