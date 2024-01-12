@@ -130,7 +130,7 @@ class TestRectangle(unittest.TestCase):
         with self.assertRaises(TypeError) as type_error:
             self.r1.width = 1.4
             self.r1.width = True
-            self.r4.width = "five"
+            self.r3.width = "five"
 
         # ensure the exception message is as expected
         self.assertEqual(
@@ -145,7 +145,7 @@ class TestRectangle(unittest.TestCase):
         with self.assertRaises(TypeError) as type_error:
             self.r1.height = 1.4
             self.r1.height = True
-            self.r4.height = "five"
+            self.r3.height = "five"
 
         # ensure the exception message is as expected
         self.assertEqual(
@@ -160,7 +160,7 @@ class TestRectangle(unittest.TestCase):
         with self.assertRaises(TypeError) as type_err:
             self.r1.x = 1.4
             self.r1.x = True
-            self.r4.x = "five"
+            self.r3.x = "five"
 
         # ensure the exception message is as expected
         self.assertEqual(type_err.exception.__str__(), "x must be an integer")
@@ -173,7 +173,7 @@ class TestRectangle(unittest.TestCase):
         with self.assertRaises(TypeError) as type_err:
             self.r1.y = 1.4
             self.r1.y = True
-            self.r4.y = "five"
+            self.r3.y = "five"
 
         # ensure the exception message is as expected
         self.assertEqual(type_err.exception.__str__(), "y must be an integer")
@@ -188,7 +188,7 @@ class TestRectangle(unittest.TestCase):
         with self.assertRaises(ValueError) as value_error:
             self.r1.width = -34
             self.r1.width = -1
-            self.r4.width = 0
+            self.r3.width = 0
 
         # ensure the exception message is as expected
         self.assertEqual(value_error.exception.__str__(), "width must be > 0")
@@ -201,7 +201,7 @@ class TestRectangle(unittest.TestCase):
         with self.assertRaises(ValueError) as value_error:
             self.r1.height = -34
             self.r1.height = -1
-            self.r4.height = 0
+            self.r3.height = 0
 
         # ensure the exception message is as expected
         self.assertEqual(value_error.exception.__str__(), "height must be > 0")
@@ -214,7 +214,7 @@ class TestRectangle(unittest.TestCase):
         with self.assertRaises(ValueError) as value_error:
             self.r1.x = 0
             self.r1.x = -1
-            self.r4.x = -45
+            self.r3.x = -45
 
         # ensure the exception message is as expected
         self.assertEqual(value_error.exception.__str__(), "x must be >= 0")
@@ -227,7 +227,7 @@ class TestRectangle(unittest.TestCase):
         with self.assertRaises(ValueError) as value_error:
             self.r1.y = 0
             self.r1.y = -1
-            self.r4.y = -45
+            self.r3.y = -45
 
         # ensure the exception message is as expected
         self.assertEqual(value_error.exception.__str__(), "y must be >= 0")
