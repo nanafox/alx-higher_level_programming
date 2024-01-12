@@ -12,8 +12,7 @@ class TestRectangle(unittest.TestCase):
     r3 = Rectangle(10, 2, 0, 0, 12)
 
     def tearDown(self) -> None:
-        """Resets the values before the next text."""
-
+        """Resets the values before the next test."""
         self.r1.width, self.r1.height = 10, 2
         self.r2.width, self.r2.height = 2, 10
         self.r3.width, self.r3.height = 10, 2
