@@ -13,15 +13,9 @@ class TestRectangle(unittest.TestCase):
 
     def tearDown(self) -> None:
         """Resets the values before the next test."""
-        self.r1.width, self.r1.height = 10, 2
-        self.r2.width, self.r2.height = 2, 10
-        self.r3.width, self.r3.height = 10, 2
-
-        # reset x values
-        self.r1.x, self.r2.x, self.r3.x = 0, 0, 0
-
-        # reset y values
-        self.r1.y, self.r2.y, self.r3.y = 0, 0, 0
+        self.r1.update(id=1, width=10, height=2, x=0, y=0)
+        self.r2.update(id=2, width=2, height=10, x=0, y=0)
+        self.r3.update(id=12, width=10, height=2, x=0, y=0)
 
     # Test for missing positional arguments
 
@@ -247,3 +241,44 @@ class TestRectangle(unittest.TestCase):
         # update the r3's value and test with it
         self.r3.width, self.r3.height = 8, 7
         self.assertEqual(self.r3.area(), 56)
+
+    def test_update_method(self):
+        """
+        Tests the `update()` method.
+        """
+        self.r1.update(10, 10, 10, 10, 10)
+        self.r2.update(id=45, x=4, y=6)
+
+        # test values
+        self.assertEqual(self.r1.x, 10)
+        self.assertEqual(self.r2.id, 45)
+        self.assertEqual(self.r2.x, 4)
+
+    def test_update_method_id_only_positional(self) -> None:
+        """
+        Tests the `update()` method by setting only the id field using
+        positional arguments.
+        """
+        self.r1.update(35)
+
+        self.assertEqual(self.r1.id, 35)
+
+    def test_update_method_id_only_kwargs(self) -> None:
+        """
+        Tests the `update()` method by setting only the id field using
+        keyword arguments.
+        """
+        self.r3.update(id=4)
+
+        self.assertEqual(self.r3.id, 4)
+
+    def test_update_method_args_and_kwargs(self) -> None:
+        """
+        Tests the `update()` method by setting only the id field using
+        both positional arguments and keyword arguments. The goal is to test
+        which of the two the function uses. The expected is that it used the
+        positional argument.
+        """
+        self.r2.update(20, id=5)
+
+        self.assertEqual(self.r2.id, 20)
