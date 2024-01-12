@@ -7,6 +7,8 @@ import unittest
 
 
 class TestRectangle(unittest.TestCase):
+    """Tests the Rectangle class of the rectangle module."""
+
     r1 = Rectangle(10, 2)
     r2 = Rectangle(2, 10)
     r3 = Rectangle(10, 2, 0, 0, 12)
@@ -282,3 +284,23 @@ class TestRectangle(unittest.TestCase):
         self.r2.update(20, id=5)
 
         self.assertEqual(self.r2.id, 20)
+
+    def test_str_method(self) -> None:
+        """
+        Tests the `__str__()` overloaded method.
+        """
+        # test the original values first
+        expected_result_r1 = "[Rectangle] (1) 0/0 - 10/2"
+        expected_result_r2 = "[Rectangle] (2) 0/0 - 2/10"
+        expected_result_r3 = "[Rectangle] (12) 0/0 - 10/2"
+
+        self.assertEqual(self.r1.__str__(), expected_result_r1)
+        self.assertEqual(self.r2.__str__(), expected_result_r2)
+        self.assertEqual(self.r3.__str__(), expected_result_r3)
+
+        # update values and test again
+        self.r1.update(id=4, x=2, y=6, width=5)
+        expected_result_r1 = "[Rectangle] (4) 2/6 - 5/2"
+
+        # test the current values after update
+        self.assertEqual(self.r1.__str__(), expected_result_r1)
