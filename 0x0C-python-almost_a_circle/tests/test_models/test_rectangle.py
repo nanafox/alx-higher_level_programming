@@ -2,7 +2,6 @@
 
 """Tests the rectangle module."""
 
-from ctypes.wintypes import HENHMETAFILE
 from models.rectangle import Rectangle
 import unittest
 
@@ -232,3 +231,19 @@ class TestRectangle(unittest.TestCase):
 
         # ensure the exception message is as expected
         self.assertEqual(value_error.exception.__str__(), "y must be >= 0")
+
+    # Test the area method
+
+    def test_area(self):
+        """Tests the area method of the Rectangle class."""
+        self.assertEqual(self.r1.area(), 20)
+
+        # update the value and try again
+        self.r1.width, self.r1.height = 2, 3
+
+        # now check the area again
+        self.assertEqual(self.r1.area(), 6)
+
+        # update the r3's value and test with it
+        self.r3.width, self.r3.height = 8, 7
+        self.assertEqual(self.r3.area(), 56)
