@@ -13,10 +13,10 @@ class Square(Rectangle):
 
     def __str__(self) -> str:
         """
-        Returns information about the Rectangle instance.
+        Returns information about the Square instance.
 
         Returns:
-            str: Information about the Rectangle instance.
+            str: Information about the Square instance.
         """
         return (
             f"[{self.__class__.__name__}] ({self.id}) "
@@ -46,3 +46,23 @@ class Square(Rectangle):
         # update the height and width
         self.width = self.__size
         self.height = self.__size
+
+    def update(self, *args, **kwargs) -> None:
+        """
+        Updates attributes with the values in the provided `args` or `kwargs`.
+        """
+        if args is not None and len(args) > 0:
+            keys = sorted(list(self.__dict__))[2:]
+            keys.reverse()
+
+            # swap x and y positions to ensure consistency
+            keys[2], keys[3] = keys[3], keys[2]
+
+            for i, arg in enumerate(args):
+                self.__dict__[keys[i]] = arg
+
+            return
+
+        # use the keyword arguments instead since the *args was unavailable
+        for key, value in kwargs.items():
+            setattr(self, key, value)
