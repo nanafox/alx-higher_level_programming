@@ -66,3 +66,17 @@ class Square(Rectangle):
         # use the keyword arguments instead since the *args was unavailable
         for key, value in kwargs.items():
             setattr(self, key, value)
+
+    def to_dictionary(self) -> dict:
+        """
+        Returns the dictionary representation of a Square instance.
+
+        Returns:
+            dict: The dictionary representation of a Square instance.
+        """
+        return {
+            "id": self.id,
+            "x": self.x,
+            "size": self.width,
+            "y": self.y,
+        }

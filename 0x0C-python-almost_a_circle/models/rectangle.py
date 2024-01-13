@@ -176,7 +176,7 @@ class Rectangle(Base):
             print()
 
         for _ in range(self.height):
-            print(' ' * self.x, end="")
+            print(" " * self.x, end="")
             print("#" * self.width)
 
     def update(self, *args, **kwargs) -> None:
@@ -195,3 +195,18 @@ class Rectangle(Base):
         # use the keyword arguments instead since the *args was unavailable
         for key, value in kwargs.items():
             setattr(self, key, value)
+
+    def to_dictionary(self) -> dict:
+        """
+        Returns the dictionary representation of a Rectangle instance.
+
+        Returns:
+            dict: The dictionary representation of a Rectangle instance.
+        """
+        return {
+            "x": self.__x,
+            "y": self.__y,
+            "id": self.id,
+            "height": self.__height,
+            "width": self.__width,
+        }
