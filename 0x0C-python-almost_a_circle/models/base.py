@@ -68,6 +68,12 @@ class Base:
             TypeError: If any of the objects in `list_objs` is not an instance
             of the `Base` class.
         """
+        if list_objs is None or len(list_objs) == 0:
+            with open(f"{cls.__name__}.json", "w", encoding="utf-8") as file:
+                file.write("[]")
+
+            return
+
         dict_of_objs = {}
 
         for obj in list_objs:
