@@ -92,3 +92,22 @@ class Base:
             json_dictionary = cls.to_json_string(list_dictionaries)
             with open(f"{class_name}.json", "w", encoding="utf-8") as file:
                 json.dump(json.loads(json_dictionary), file)
+
+    @staticmethod
+    def from_json_string(json_string: str) -> list:
+        """
+        Returns the JSON representation of a JSON-formatted string.
+
+        Args:
+            json_string (str): The JSON-formatted string representation.
+
+        Returns:
+            list: A list of JSON representation of `json_string`.
+        """
+        if json_string is None:
+            return []
+
+        if type(json_string) is not str:
+            raise TypeError("json_string must be a string")
+
+        return json.loads(json_string)
