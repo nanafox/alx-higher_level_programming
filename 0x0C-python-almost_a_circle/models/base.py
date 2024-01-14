@@ -2,6 +2,7 @@
 """Defines the base class class for future classes."""
 
 import json
+import os
 import models.rectangle as rectangle
 
 
@@ -137,3 +138,27 @@ class Base:
         dummy.update(**dictionary)
 
         return dummy
+
+    @classmethod
+    def load_from_file(cls) -> list:
+        """
+        Returns a list of instances from a JSON file.
+
+        Returns:
+            list: A list of instances from a JSON file.
+        """
+        instances = []
+        try:
+            if os.path.exists(f"{cls.__name__}.json"):
+                with open(
+                    f"{cls.__name__}.json", "r", encoding="utf-8"
+                ) as json_file:
+                    content = json_file.read()
+
+                list_dictionaries = cls.from_json_string(content)
+                for dictionary in list_dictionaries:
+                    instances.append(cls.create(**dictionary))
+        except FileNotFoundError:
+            return []
+
+        return instances
