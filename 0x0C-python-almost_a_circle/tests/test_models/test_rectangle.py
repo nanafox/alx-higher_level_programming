@@ -304,3 +304,26 @@ class TestRectangle(unittest.TestCase):
 
         # test the current values after update
         self.assertEqual(self.r1.__str__(), expected_result_r1)
+
+    def test_to_dictionary(self) -> None:
+        """Tests the `to_dictionary()` method."""
+        expected_result_r1 = {
+            "x": 0,
+            "y": 0,
+            "id": self.r1.id,
+            "width": 10,
+            "height": 2,
+        }
+
+        # update r3's value and test with it
+        self.r3.update(x=4, y=2)
+        expected_result_r3 = {
+            "x": 4,
+            "y": 2,
+            "id": 12,
+            "width": 10,
+            "height": 2,
+        }
+
+        self.assertEqual(self.r1.to_dictionary(), expected_result_r1)
+        self.assertEqual(self.r3.to_dictionary(), expected_result_r3)
