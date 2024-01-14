@@ -96,5 +96,5 @@ class TestBaseClass(unittest.TestCase):
         self.assertEqual(
             err.exception.__str__(),
             "to_json_string() missing 1 required positional argument: "
-            "'list_dictionaries'"
+            "'list_dictionaries'",
         )
