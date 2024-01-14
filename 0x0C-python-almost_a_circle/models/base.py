@@ -2,6 +2,7 @@
 """Defines the base class class for future classes."""
 
 import json
+import models.rectangle as rectangle
 
 
 class Base:
@@ -111,3 +112,28 @@ class Base:
             raise TypeError("json_string must be a string")
 
         return json.loads(json_string)
+
+    @classmethod
+    def create(cls, **dictionary: dict):
+        """
+        Returns a Rectangle instance with all attributes already set.
+
+        It uses the `update()` method to accomplish this. The returned
+        object will always be an instance of the `Rectangle` class since
+        a dummy object is needed first before it could be later populated
+        with the data the user provides.
+
+        Raises:
+            TypeError: If the argument received is not a dictionary.
+
+        Returns:
+            Rectangle: An instance of the `Rectangle` with all of its
+            attributes already set using `dictionary`.
+        """
+        if not isinstance(dictionary, dict):
+            raise TypeError("dictionary must be Python dictionary ('dict')")
+
+        dummy = rectangle.Rectangle(4, 8)
+        dummy.update(**dictionary)
+
+        return dummy
