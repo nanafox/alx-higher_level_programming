@@ -51,6 +51,9 @@ class Square(Rectangle):
         """
         Updates attributes with the values in the provided `args` or `kwargs`.
         """
+        if args is not None and len(args) > len(self.__dict__.keys()):
+            raise ValueError("excess positional arguments than expected")
+
         if args is not None and len(args) > 0:
             keys = sorted(list(self.__dict__))[2:]
             keys.reverse()
@@ -64,8 +67,11 @@ class Square(Rectangle):
             return
 
         # use the keyword arguments instead since the *args was unavailable
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+        for attr, value in kwargs.items():
+            if not hasattr(self, attr):
+                raise AttributeError(f"invalid attribute name: '{attr}'")
+
+            setattr(self, attr, value)
 
     def to_dictionary(self) -> dict:
         """

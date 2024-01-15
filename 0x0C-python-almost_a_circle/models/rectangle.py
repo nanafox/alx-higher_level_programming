@@ -10,7 +10,7 @@ class Rectangle(Base):
 
     def __init__(
         self, width: int, height: int, x: int = 0, y: int = 0, id=None
-    ):
+    ) -> None:
         """
         Initializes a Rectangle object.
 
@@ -183,6 +183,9 @@ class Rectangle(Base):
         """
         Updates attributes with the values in the provided `args`.
         """
+        if args is not None and len(args) > len(self.__dict__.keys()):
+            raise ValueError("excess positional arguments than expected")
+
         # attempt to use the *args if it's present and not empty
         if args is not None and len(args) > 0:
             keys = list(self.__dict__)
@@ -193,8 +196,11 @@ class Rectangle(Base):
             return  # we are done here if the *args was not empty, return
 
         # use the keyword arguments instead since the *args was unavailable
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+        for attr, value in kwargs.items():
+            if not hasattr(self, attr):
+                raise AttributeError(f"invalid attribute name: '{attr}'")
+
+            setattr(self, attr, value)
 
     def to_dictionary(self) -> dict:
         """
