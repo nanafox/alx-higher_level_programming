@@ -4,6 +4,7 @@
 import csv
 import os
 import json
+import turtle
 
 
 class Base:
@@ -219,3 +220,64 @@ class Base:
             return []
 
         return instances
+
+    @classmethod
+    def draw(cls, list_rectangles, list_squares) -> None:
+        """Draw rectangles and squares side by side using the turtle module.
+
+        Args:
+            list_rectangles (list): A list of Rectangle objects to draw.
+            list_squares (list): A list of Square objects to draw.
+        """
+        screen = turtle.Screen()
+        screen.bgcolor("#180302")
+        screen.title("Shapes | theLazyProgrammer^_^")
+
+        drawer = turtle.Turtle()
+        drawer.pensize(5)
+        drawer.shape("circle")
+        drawer.speed(5)
+
+        cls._draw_shapes(drawer, list_rectangles, "#f4f45d", side_by_side=True)
+        cls._draw_shapes(drawer, list_squares, "#0670d4", side_by_side=True)
+
+        turtle.exitonclick()
+
+    @staticmethod
+    def _draw_shapes(turtle_drawer, shapes, color, side_by_side=False) -> None:
+        """Draw a list of shapes using the turtle module.
+
+        Args:
+            turtle_drawer (turtle.Turtle): The turtle used for drawing.
+            shapes (list): A list of shapes (Rectangle or Square objects) to
+            draw.
+            color (str): The color to use for drawing.
+            side_by_side (bool): Whether to draw shapes side by side.
+        """
+        turtle_drawer.color(color)
+
+        for shape in shapes:
+            turtle_drawer.showturtle()
+            turtle_drawer.up()
+
+            if side_by_side:
+                if shape.__class__.__name__ == "Square":
+                    turtle_drawer.goto(shape.x + shape.size, shape.y)
+                elif shape.__class__.__name__ == "Rectangle":
+                    turtle_drawer.goto(shape.x + shape.width, shape.y)
+            else:
+                turtle_drawer.goto(shape.x, shape.y)
+
+            turtle_drawer.down()
+            if shape.__class__.__name__ == "Square":
+                for _ in range(4):
+                    turtle_drawer.forward(shape.size)
+                    turtle_drawer.left(90)
+            elif shape.__class__.__name__ == "Rectangle":
+                for _ in range(2):
+                    turtle_drawer.forward(shape.width)
+                    turtle_drawer.left(90)
+                    turtle_drawer.forward(shape.height)
+                    turtle_drawer.left(90)
+
+            turtle_drawer.hideturtle()
