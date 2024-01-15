@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """Tests the Base class in the models package."""
 
+import json
+import unittest
 from models.base import Base
 from models.rectangle import Rectangle
-import unittest
-import json
 
 
 class TestBaseClass(unittest.TestCase):

@@ -1,9 +1,8 @@
 #!/usr/bin/python3
-"""Defines the base class class for future classes."""
+"""Defines the base class for future classes."""
 
-import json
 import os
-import models.rectangle as rectangle
+import json
 
 
 class Base:
@@ -11,7 +10,7 @@ class Base:
 
     __nb_objects = 0
 
-    def __init__(self, id=None):
+    def __init__(self, id=None) -> None:
         """
         Initializes a Base object.
 
@@ -119,24 +118,18 @@ class Base:
         """
         Returns a Rectangle instance with all attributes already set.
 
-        It uses the `update()` method to accomplish this. The returned
-        object will always be an instance of the `Rectangle` class since
-        a dummy object is needed first before it could be later populated
-        with the data the user provides.
-
-        Raises:
-            TypeError: If the argument received is not a dictionary.
-
         Returns:
-            Rectangle: An instance of the `Rectangle` with all of its
-            attributes already set using `dictionary`.
+            Rectangle: An instance with all of its attributes already
+            set using `dictionary`.
         """
-        if not isinstance(dictionary, dict):
-            raise TypeError("dictionary must be Python dictionary ('dict')")
+        dummy = None
 
-        dummy = rectangle.Rectangle(4, 8)
+        if cls.__name__ == "Rectangle":
+            dummy = cls(4, 8)  # create a Rectangle object
+        elif cls.__name__ == "Square":
+            dummy = cls(8)  # create a Square object
+
         dummy.update(**dictionary)
-
         return dummy
 
     @classmethod
