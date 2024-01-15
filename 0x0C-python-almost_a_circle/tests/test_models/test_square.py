@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 
+import json
+import sys
 import unittest
+from io import StringIO
 from models.square import Square
 
 
@@ -105,3 +108,125 @@ class TestSquare(unittest.TestCase):
 
         # test the current values after update
         self.assertEqual(self.sq1.__str__(), expected_result_sq1)
+
+
+class TestToJsonStringOnSquare(TestSquare, unittest.TestCase):
+    """Tests the `to_json_string` static method on the Square class."""
+
+    def test_to_json_square_for_one(self) -> None:
+        """
+        Tests the `to_json_string` method on the Square class for
+        one object.
+        """
+        dictionary = self.sq1.to_dictionary()
+
+        self.assertEqual(
+            Square.to_json_string([dictionary]), json.dumps([dictionary])
+        )
+
+    def test_to_json_square_for_multiple(self) -> None:
+        """
+        Tests the `to_json_string` method on the Square class for multiple
+        objects.
+        """
+        dictionary_1 = self.sq1.to_dictionary()
+        dictionary_2 = self.sq2.to_dictionary()
+
+        self.assertEqual(
+            Square.to_json_string([dictionary_1, dictionary_2]),
+            json.dumps([dictionary_1, dictionary_2]),
+        )
+
+    def test_to_json_string_not_list(self) -> None:
+        """
+        Tests for TypeError exception raised when the argument passed is not
+        a list.
+        """
+        with self.assertRaises(TypeError):
+            Square.to_json_string("not list")
+
+    def test_to_json_string_not_list_of_dicts(self) -> None:
+        """
+        Tests for TypeError exception raised when the argument passed is not
+        a list of dictionaries.
+        """
+        with self.assertRaises(TypeError):
+            Square.to_json_string(
+                list_dictionaries=[34, 9, self.sq1.to_dictionary()]
+            )
+
+    def test_to_json_string_return_type(self) -> None:
+        self.assertTrue(
+            type(Square.to_json_string([self.sq1.to_dictionary()])) is str
+        )
+
+
+class TestDisplayOnSquare(TestSquare, unittest.TestCase):
+    def test_display_square_with_size_one(self) -> None:
+        """
+        Tests the `display()` for a square of size one (1), and no
+        `x`or `y` values.
+        """
+        self.sq1.size = 1
+        captured = StringIO()
+        sys.stdout = captured
+        self.sq1.display()
+        sys.stdout = sys.__stdout__
+
+        self.assertEqual(captured.getvalue(), "#\n")
+
+    def test_display_for_size_five(self) -> None:
+        """
+        Tests the `display()` for a square of size five(5)
+        no `x`or `y` values.
+        """
+        expected_result = "#####\n#####\n#####\n#####\n#####\n"
+        captured = StringIO()
+        sys.stdout = captured
+        self.sq1.display()
+        sys.stdout = sys.__stdout__
+
+        self.assertEqual(captured.getvalue(), expected_result)
+
+    def test_display_with_x(self) -> None:
+        """
+        Tests the `display()` for a square of size five(5) and `x` value 3
+        and no `y` value.
+        """
+        self.sq1.x = 3
+        expected_result = "   #####\n   #####\n   #####\n   #####\n   #####\n"
+        captured = StringIO()
+        sys.stdout = captured
+        self.sq1.display()
+        sys.stdout = sys.__stdout__
+
+        self.assertEqual(captured.getvalue(), expected_result)
+
+    def test_display_with_y(self) -> None:
+        """
+        Tests the `display()` for a square of size five(5) and `y` value 3
+        and not `x` value.
+        """
+        self.sq1.y = 3
+        expected_result = "\n\n\n#####\n#####\n#####\n#####\n#####\n"
+        captured = StringIO()
+        sys.stdout = captured
+        self.sq1.display()
+        sys.stdout = sys.__stdout__
+
+        self.assertEqual(captured.getvalue(), expected_result)
+
+    def test_display_with_size_x_and_y(self) -> None:
+        """
+        Tests the display method with `size`, `x` and `y` values set.
+        """
+        self.sq1.update(x=3, y=3)
+        expected_result = (
+            "\n\n\n   #####\n   #####\n   #####\n   #####\n   #####\n"
+        )
+        captured = StringIO()
+        sys.stdout = captured
+        self.sq1.display()
+        sys.stdout = sys.__stdout__
+
+        self.assertEqual(captured.getvalue(), expected_result)
