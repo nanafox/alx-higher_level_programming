@@ -2,9 +2,40 @@
 """Tests the Base class in the models package."""
 
 import json
+import inspect
 import unittest
 from models.base import Base
 from models.rectangle import Rectangle
+
+
+class TestDocumentation(unittest.TestCase):
+    """Tests the documentation for modules, classes and methods."""
+
+    @classmethod
+    def setUpClass(cls) -> None:
+        """
+        Set up class method for the doc tests.
+        """
+        cls.setup = inspect.getmembers(Base, inspect.isfunction)
+
+    def test_module_docstring_exists(self):
+        """
+        Tests if module docstring documentation exists.
+        """
+        self.assertTrue(len(str(Base.__doc__)) >= 5)
+
+    def test_classes_docstring_exists(self):
+        """
+        Tests if class docstring documentation exists.
+        """
+        self.assertTrue(len(str(Base.__doc__)) >= 5)
+
+    def test_methods_docstring_exists(self):
+        """
+        Tests if methods docstring documentation exists
+        """
+        for _, method in self.setup:
+            self.assertTrue(len(str(method.__doc__)) >= 10)
 
 
 class TestBaseClass(unittest.TestCase):
