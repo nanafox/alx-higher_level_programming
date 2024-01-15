@@ -9,15 +9,15 @@ import unittest
 class TestRectangle(unittest.TestCase):
     """Tests the Rectangle class of the rectangle module."""
 
-    r1 = Rectangle(10, 2)
-    r2 = Rectangle(2, 10)
-    r3 = Rectangle(10, 2, 0, 0, 12)
+    def setUp(self) -> None:
+        """Instantiates values for test cases."""
+        self.r1 = Rectangle(10, 2)
+        self.r2 = Rectangle(2, 10)
+        self.r3 = Rectangle(10, 2, 0, 0, 12)
 
     def tearDown(self) -> None:
         """Resets the values before the next test."""
-        self.r1.update(id=1, width=10, height=2, x=0, y=0)
-        self.r2.update(id=2, width=2, height=10, x=0, y=0)
-        self.r3.update(id=12, width=10, height=2, x=0, y=0)
+        pass
 
     # Test for missing positional arguments
 
@@ -230,7 +230,7 @@ class TestRectangle(unittest.TestCase):
 
     # Test the area method
 
-    def test_area(self):
+    def test_area(self) -> None:
         """Tests the area method of the Rectangle class."""
         self.assertEqual(self.r1.area(), 20)
 
@@ -244,7 +244,7 @@ class TestRectangle(unittest.TestCase):
         self.r3.width, self.r3.height = 8, 7
         self.assertEqual(self.r3.area(), 56)
 
-    def test_update_method(self):
+    def test_update_method(self) -> None:
         """
         Tests the `update()` method.
         """
@@ -285,14 +285,21 @@ class TestRectangle(unittest.TestCase):
 
         self.assertEqual(self.r2.id, 20)
 
+    def test_update_too_many_pos_args(self) -> None:
+        """Tests for many positional arguments passed to the update method."""
+        with self.assertRaisesRegex(
+            ValueError, "excess positional arguments than expected"
+        ):
+            self.r1.update(*list(range(10)))
+
     def test_str_method(self) -> None:
         """
         Tests the `__str__()` overloaded method.
         """
         # test the original values first
-        expected_result_r1 = "[Rectangle] (1) 0/0 - 10/2"
-        expected_result_r2 = "[Rectangle] (2) 0/0 - 2/10"
-        expected_result_r3 = "[Rectangle] (12) 0/0 - 10/2"
+        expected_result_r1 = f"[Rectangle] ({self.r1.id}) 0/0 - 10/2"
+        expected_result_r2 = f"[Rectangle] ({self.r2.id}) 0/0 - 2/10"
+        expected_result_r3 = f"[Rectangle] ({self.r3.id}) 0/0 - 10/2"
 
         self.assertEqual(self.r1.__str__(), expected_result_r1)
         self.assertEqual(self.r2.__str__(), expected_result_r2)
@@ -300,7 +307,7 @@ class TestRectangle(unittest.TestCase):
 
         # update values and test again
         self.r1.update(id=4, x=2, y=6, width=5)
-        expected_result_r1 = "[Rectangle] (4) 2/6 - 5/2"
+        expected_result_r1 = f"[Rectangle] ({self.r1.id}) 2/6 - 5/2"
 
         # test the current values after update
         self.assertEqual(self.r1.__str__(), expected_result_r1)
