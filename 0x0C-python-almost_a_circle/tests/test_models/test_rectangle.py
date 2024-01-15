@@ -2,8 +2,12 @@
 
 """Tests the rectangle module."""
 
-from models.rectangle import Rectangle
+import os
+import sys
+import json
 import unittest
+from io import StringIO
+from models.rectangle import Rectangle
 
 
 class TestRectangle(unittest.TestCase):
@@ -334,3 +338,164 @@ class TestRectangle(unittest.TestCase):
 
         self.assertEqual(self.r1.to_dictionary(), expected_result_r1)
         self.assertEqual(self.r3.to_dictionary(), expected_result_r3)
+
+
+class TestDisplayOnRectangle(unittest.TestCase):
+    """Tests the display method on Rectangle objects."""
+
+    def setUp(self) -> None:
+        """Instantiates values for test cases."""
+        self.very_small_rectangle = Rectangle(1, 1)
+        self.small_rectangle = Rectangle(3, 2)
+        self.medium_rectangle = Rectangle(10, 5)
+        self.large_rectangle = Rectangle(20, 10)
+
+    def test_display_for_very_small_rectangle_no_x_y(self) -> None:
+        """
+        Tests the `display()` for a rectangle of width one (1), height one (1)
+        and no `x`or `y` values.
+        """
+        captured = StringIO()
+        sys.stdout = captured
+        self.very_small_rectangle.display()
+        sys.stdout = sys.__stdout__
+
+        self.assertEqual(captured.getvalue(), "#\n")
+
+    def test_display_for_very_small_rectangle_with_x_only(self) -> None:
+        """Tests the `display()` for a rectangle of `width` one (1), `height`
+        one (1), `x` as 3 and no `y` values."""
+        self.very_small_rectangle.x = 3
+        captured = StringIO()
+        sys.stdout = captured
+        self.very_small_rectangle.display()
+        sys.stdout = sys.__stdout__
+
+        self.assertEqual(captured.getvalue(), "   #\n")
+
+    def test_display_for_very_small_rectangle_with_y_only(self) -> None:
+        """Tests the `display()` for a rectangle of `width` one (1), `height`
+        one (1), no `x` and `y` value as 3."""
+        self.very_small_rectangle.y = 3
+        captured = StringIO()
+        sys.stdout = captured
+        self.very_small_rectangle.display()
+        sys.stdout = sys.__stdout__
+
+        self.assertEqual(captured.getvalue(), "\n\n\n#\n")
+
+    def test_display_for_very_small_rectangle_with_x_and_y(self) -> None:
+        """Tests the `display()` for a rectangle of `width` one (1), `height`
+        one (1), no `x` and `y` value as 3."""
+        self.very_small_rectangle.update(x=3, y=5)
+        captured = StringIO()
+        sys.stdout = captured
+        self.very_small_rectangle.display()
+        sys.stdout = sys.__stdout__
+
+        self.assertEqual(captured.getvalue(), "\n\n\n\n\n   #\n")
+
+    # Test for small rectangle
+    def test_display_for_small_rectangle_no_x_y(self) -> None:
+        """
+        Tests the `display()` for a rectangle of `width` 3, `height` 2
+        and no `x`or `y` values.
+        """
+        captured = StringIO()
+        sys.stdout = captured
+        self.small_rectangle.display()
+        sys.stdout = sys.__stdout__
+
+        self.assertEqual(captured.getvalue(), "###\n###\n")
+
+    def test_display_for_small_rectangle_with_x_only(self) -> None:
+        """Tests the `display()` for a rectangle of `width` 3, `height`2, `x`
+        as 3 and no `y` values."""
+        self.small_rectangle.x = 10
+        captured = StringIO()
+        sys.stdout = captured
+        self.small_rectangle.display()
+        sys.stdout = sys.__stdout__
+        result = "          ###\n" * 2
+        self.assertEqual(captured.getvalue(), result)
+
+    def test_display_for_small_rectangle_with_y_only(self) -> None:
+        """Tests the `display()` for a rectangle of `width` 3, `height` 2, no
+        `x`, `y` value as 10."""
+        self.small_rectangle.y = 10
+        captured = StringIO()
+        sys.stdout = captured
+        self.small_rectangle.display()
+        sys.stdout = sys.__stdout__
+        result = "\n" * 10 + "###\n" * 2
+        self.assertEqual(captured.getvalue(), result)
+
+    def test_display_for_small_rectangle_with_x_and_y(self) -> None:
+        """
+        Tests the `display()` for a rectangle of `width` 3, `height` 2, `x`
+        and `y` values as 10.
+        """
+        self.small_rectangle.update(x=10, y=10)
+        captured = StringIO()
+        sys.stdout = captured
+        self.small_rectangle.display()
+        sys.stdout = sys.__stdout__
+
+        result = "\n" * 10 + " " * 10 + "###\n" + " " * 10 + "###\n"
+        self.assertEqual(captured.getvalue(), result)
+
+
+class TestSaveToFileOnRectangle(unittest.TestCase):
+    """Tests the `save_to_file()` class method on Rectangle objects."""
+
+    def setUp(self) -> None:
+        try:
+            os.remove("Rectangle.json")
+        except Exception:
+            pass
+
+    def tearDown(self) -> None:
+        try:
+            os.remove("Rectangle.json")
+        except Exception:
+            pass
+
+    def test_save_to_file_none_arg(self) -> None:
+        """
+        Tests the `save_to_file()` class method on a rectangle, argument passed
+        is None.
+        """
+        Rectangle.save_to_file(None)
+
+        try:
+            with open("Rectangle.json", "r") as json_file:
+                json_content = json_file.read()
+                self.assertEqual(json_content, str(json.loads(json_content)))
+        except FileNotFoundError:
+            pass
+
+    def test_save_to_file_valid_data(self) -> None:
+        """
+        Tests the `save_to_file()` class method on a rectangle, argument passed
+        is a list of two dictionaries.
+        """
+        r1 = Rectangle(10, 7, 2, 8, id=1)
+        r2 = Rectangle(2, 4, id=2)
+        Rectangle.save_to_file([r1, r2])
+
+        result = [
+            {"x": 2, "y": 8, "id": 1, "height": 7, "width": 10},
+            {"x": 0, "y": 0, "id": 2, "height": 4, "width": 2},
+        ]
+
+        with open("Rectangle.json", "r") as json_file:
+            json_content = json_file.read()
+            self.assertEqual(result, json.loads(json_content))
+
+    def test_save_to_file_type_error(self) -> None:
+        """
+        Tests TypeError exceptions raised when an object other than one that
+        inherits from the `Base` class is passed as an argument.
+        """
+        with self.assertRaises(TypeError):
+            Rectangle.save_to_file([4, "54"])

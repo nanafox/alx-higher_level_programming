@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 
 import json
+import os
 import sys
 import unittest
 from io import StringIO
@@ -238,3 +239,59 @@ class TestDisplayOnSquare(unittest.TestCase):
         sys.stdout = sys.__stdout__
 
         self.assertEqual(captured.getvalue(), expected_result)
+
+
+class TestSaveToFileOnSquare(unittest.TestCase):
+    """Tests the `save_to_file()` class method on Rectangle objects."""
+
+    def setUp(self) -> None:
+        try:
+            os.remove("Square.json")
+        except Exception:
+            pass
+
+    def tearDown(self) -> None:
+        try:
+            os.remove("Square.json")
+        except Exception:
+            pass
+
+    def test_save_to_file_none_arg(self) -> None:
+        """
+        Tests the `save_to_file()` class method on a rectangle, argument passed
+        is None.
+        """
+        Square.save_to_file(None)
+
+        try:
+            with open("Square.json", "r") as json_file:
+                json_content = json_file.read()
+                self.assertEqual(json_content, str(json.loads(json_content)))
+        except FileNotFoundError:
+            pass
+
+    def test_save_to_file_valid_data(self) -> None:
+        """
+        Tests the `save_to_file()` class method on a rectangle, argument passed
+        is a list of two dictionaries.
+        """
+        sq1 = Square(size=10, x=7, y=2, id=8)
+        sq2 = Square(size=2, x=4, id=2)
+        Square.save_to_file([sq1, sq2])
+
+        result = [
+            {"id": 8, "x": 7, "size": 10, "y": 2},
+            {"id": 2, "x": 4, "size": 2, "y": 0},
+        ]
+
+        with open("Square.json", "r") as json_file:
+            json_content = json_file.read()
+            self.assertEqual(result, json.loads(json_content))
+
+    def test_save_to_file_type_error(self) -> None:
+        """
+        Tests TypeError exceptions raised when an object other than one that
+        inherits from the `Base` class is passed as an argument.
+        """
+        with self.assertRaises(TypeError):
+            Square.save_to_file([4, "54"])
