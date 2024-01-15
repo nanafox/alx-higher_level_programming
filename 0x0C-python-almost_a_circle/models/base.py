@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """Defines the base class for future classes."""
 
+import csv
 import os
 import json
 
@@ -151,6 +152,69 @@ class Base:
                 list_dictionaries = cls.from_json_string(content)
                 for dictionary in list_dictionaries:
                     instances.append(cls.create(**dictionary))
+        except FileNotFoundError:
+            return []
+
+        return instances
+
+    @classmethod
+    def save_to_file_csv(cls, list_objs: list) -> None:
+        """
+        Writes the CSV string representation of a list of objects to a file.
+
+        Args:
+            list_objs (list): The list of objects that inherits from `Base`.
+
+        Raises:
+            TypeError: If any of the objects in `list_objs` is not an instance
+            of the `Base` class.
+        """
+        with open(f"{cls.__name__}.csv", "w") as csv_file:
+            if list_objs is None or len(list_objs) == 0:
+                csv_file.write("[]")
+                return
+
+            if cls.__name__ == "Rectangle":
+                fieldnames = ["id", "width", "height", "x", "y"]
+            elif cls.__name__ == "Square":
+                fieldnames = ["id", "size", "x", "y"]
+            elif not issubclass(cls, Base):
+                raise TypeError("incompatible object type")
+
+            writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            for obj in list_objs:
+                writer.writerow(obj.to_dictionary())
+
+    @classmethod
+    def load_from_file_csv(cls):
+        """
+        Returns a list of instances from a CSV file.
+
+        Returns:
+            list: A list of instances from a CSV file.
+        """
+        instances = []
+        try:
+            file_name = f"{cls.__name__}.csv"
+            if os.path.exists(file_name):
+                with open(file_name, "r", newline="") as csv_file:
+                    if cls.__name__ == "Rectangle":
+                        fieldnames = ["id", "width", "height", "x", "y"]
+                    elif cls.__name__ == "Square":
+                        fieldnames = ["id", "size", "x", "y"]
+                    elif not issubclass(cls, Base):
+                        raise TypeError("Incompatible object type")
+
+                    list_dictionaries = csv.DictReader(
+                        csv_file, fieldnames=fieldnames
+                    )
+
+                    list_dictionaries = [
+                        dict((k, int(v)) for k, v in d.items())
+                        for d in list_dictionaries
+                    ]
+
+                    instances = [cls.create(**d) for d in list_dictionaries]
         except FileNotFoundError:
             return []
 
