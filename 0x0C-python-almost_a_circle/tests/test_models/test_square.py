@@ -7,8 +7,9 @@ from models.square import Square
 class TestSquare(unittest.TestCase):
     """Tests the Square class"""
 
-    sq1 = Square(size=5)
-    sq2 = Square(size=10, x=2, y=3)
+    def setUp(self) -> None:
+        self.sq1 = Square(size=5)
+        self.sq2 = Square(size=10, x=2, y=3)
 
     def tearDown(self) -> None:
         self.sq1.update(size=5)
@@ -63,3 +64,17 @@ class TestSquare(unittest.TestCase):
 
         self.assertEqual(self.sq1.to_dictionary(), expected_result_sq1)
         self.assertEqual(self.sq2.to_dictionary(), expected_result_sq2)
+
+    def test_update_invalid_attr(self) -> None:
+        """Tests for invalid attribute names passed to the update method."""
+        with self.assertRaisesRegex(
+            AttributeError, "invalid attribute name: 'p'"
+        ):
+            self.sq1.update(p=56)
+
+    def test_update_too_many_pos_args(self) -> None:
+        """Tests for many positional arguments passed to the update method."""
+        with self.assertRaisesRegex(
+            ValueError, "excess positional arguments than expected"
+        ):
+            self.sq2.update(*list(range(10)))
