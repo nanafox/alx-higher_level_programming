@@ -11,10 +11,6 @@ class TestSquare(unittest.TestCase):
         self.sq1 = Square(size=5)
         self.sq2 = Square(size=10, x=2, y=3)
 
-    def tearDown(self) -> None:
-        self.sq1.update(size=5)
-        self.sq2.update(size=10, x=2, y=3)
-
     def test_size_value(self) -> None:
         """
         Tests the values assigned to the size attribute of the Square
@@ -57,6 +53,19 @@ class TestSquare(unittest.TestCase):
 
         self.assertEqual(err.exception.__str__(), "width must be > 0")
 
+    def test_set_size_neg_values_only(self) -> None:
+        with self.assertRaisesRegex(ValueError, "width must be > 0"):
+            self.sq1.size = -5
+            self.sq2.size = -19
+
+    def test_set_size_float_values_only(self) -> None:
+        with self.assertRaisesRegex(TypeError, "width must be an integer"):
+            self.sq1.size = 4.5
+
+    def test_set_size_str_values_only(self) -> None:
+        with self.assertRaisesRegex(TypeError, "width must be an integer"):
+            self.sq1.size = "4"
+
     def test_to_dictionary(self) -> None:
         """Tests the `to_dictionary()` method."""
         expected_result_sq1 = {"id": self.sq1.id, "x": 0, "y": 0, "size": 5}
@@ -78,3 +87,21 @@ class TestSquare(unittest.TestCase):
             ValueError, "excess positional arguments than expected"
         ):
             self.sq2.update(*list(range(10)))
+
+    def test_str_method(self) -> None:
+        """
+        Tests the `__str__()` overloaded method.
+        """
+        # test the original values first
+        expected_result_sq1 = f"[Square] ({self.sq1.id}) 0/0 - 5"
+        expected_result_sq2 = f"[Square] ({self.sq2.id}) 2/3 - 10"
+
+        self.assertEqual(self.sq1.__str__(), expected_result_sq1)
+        self.assertEqual(self.sq2.__str__(), expected_result_sq2)
+
+        # update values and test again
+        self.sq1.update(id=4, x=2, y=6, size=15)
+        expected_result_sq1 = f"[Square] (4) 2/6 - 15"
+
+        # test the current values after update
+        self.assertEqual(self.sq1.__str__(), expected_result_sq1)
