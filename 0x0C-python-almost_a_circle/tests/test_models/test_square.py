@@ -110,8 +110,12 @@ class TestSquare(unittest.TestCase):
         self.assertEqual(self.sq1.__str__(), expected_result_sq1)
 
 
-class TestToJsonStringOnSquare(TestSquare, unittest.TestCase):
+class TestToJsonStringOnSquare(unittest.TestCase):
     """Tests the `to_json_string` static method on the Square class."""
+
+    def setUp(self) -> None:
+        self.sq1 = Square(size=5)
+        self.sq2 = Square(size=10, x=2, y=3)
 
     def test_to_json_square_for_one(self) -> None:
         """
@@ -161,7 +165,11 @@ class TestToJsonStringOnSquare(TestSquare, unittest.TestCase):
         )
 
 
-class TestDisplayOnSquare(TestSquare, unittest.TestCase):
+class TestDisplayOnSquare(unittest.TestCase):
+    def setUp(self) -> None:
+        self.sq1 = Square(size=5)
+        self.sq2 = Square(size=10, x=2, y=3)
+
     def test_display_square_with_size_one(self) -> None:
         """
         Tests the `display()` for a square of size one (1), and no
