@@ -92,6 +92,29 @@ class TestSquare(unittest.TestCase):
         ):
             self.sq2.update(*list(range(10)))
 
+    def test_update_one_positional_arg(self) -> None:
+        self.sq1.update(1)
+
+        self.assertEqual(self.sq1.id, 1)
+
+    def test_update_two_positional_args(self) -> None:
+        self.sq1.update(1, 10)
+        self.assertEqual(self.sq1.id, 1)
+        self.assertEqual(self.sq1.size, 10)
+
+    def test_update_three_positional_args(self) -> None:
+        self.sq1.update(1, 10, 4)
+        self.assertEqual(self.sq1.id, 1)
+        self.assertEqual(self.sq1.size, 10)
+        self.assertEqual(self.sq1.x, 10)
+
+    def test_update_three_positional_args(self) -> None:
+        self.sq1.update(1, 4, 10, 3)
+        self.assertEqual(self.sq1.id, 1)
+        self.assertEqual(self.sq1.size, 4)
+        self.assertEqual(self.sq1.x, 10)
+        self.assertEqual(self.sq1.y, 3)
+
     def test_str_method(self) -> None:
         """
         Tests the `__str__()` overloaded method.
@@ -108,6 +131,12 @@ class TestSquare(unittest.TestCase):
         expected_result_sq1 = f"[Square] (4) 2/6 - 15"
 
         # test the current values after update
+        self.assertEqual(self.sq1.__str__(), expected_result_sq1)
+
+    def test_str_method_extended(self) -> None:
+        self.sq1.update(1, 2, 3)
+
+        expected_result_sq1 = f"[Square] ({self.sq1.id}) 3/0 - 2"
         self.assertEqual(self.sq1.__str__(), expected_result_sq1)
 
 
