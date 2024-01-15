@@ -52,15 +52,11 @@ class Square(Rectangle):
             raise ValueError("excess positional arguments than expected")
 
         if args is not None and len(args) > 0:
-            keys = sorted(list(self.__dict__))[2:]
-            keys.reverse()
+            obj_dict_keys = list(self.to_dictionary().keys())
+            obj_dict_keys.sort()
 
-            # swap x and y positions to ensure consistency
-            keys[2], keys[3] = keys[3], keys[2]
-
-            for i, arg in enumerate(args):
-                self.__dict__[keys[i]] = arg
-
+            for i, value in enumerate(args):
+                setattr(self, obj_dict_keys[i], value)
             return
 
         # use the keyword arguments instead since the *args was unavailable
