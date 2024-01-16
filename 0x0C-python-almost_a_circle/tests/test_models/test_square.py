@@ -378,7 +378,7 @@ class TestFromJsonStringOnSquare(unittest.TestCase):
         self.assertEqual(Square.from_json_string(json_str), expected_result)
 
 
-class TestInstantiationErrors(unittest.TestCase):
+class TestSquareInstantiationErrors(unittest.TestCase):
     """
     Tests multiple errors that occur during Square object instantiation.
     """

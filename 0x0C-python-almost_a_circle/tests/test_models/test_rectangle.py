@@ -340,7 +340,7 @@ class TestRectangle(unittest.TestCase):
         self.assertEqual(self.r3.to_dictionary(), expected_result_r3)
 
 
-class TestInstantiationErrors(unittest.TestCase):
+class TestRectangleInstantiationErrors(unittest.TestCase):
     """
     Tests multiple errors that occur during Rectangle object instantiation.
     """
