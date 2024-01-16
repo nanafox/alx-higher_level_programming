@@ -39,7 +39,7 @@ class TestSquare(unittest.TestCase):
     def test_set_size_type_error(self) -> None:
         """
         Tests for TypeError exceptions raised while setting the `size`
-        attribute. The exception must be the one raised from the `width`.
+        attribute. The exception must be the one raised from the `size`.
         """
         with self.assertRaises(TypeError) as err:
             self.sq1.size = 4.5
@@ -49,7 +49,7 @@ class TestSquare(unittest.TestCase):
     def test_set_size_value_error(self) -> None:
         """
         Tests for ValueError exceptions raised while setting the `size`
-        attribute. The exception must be the one raised from the `width`.
+        attribute. The exception must be the one raised from the `size`.
         """
         with self.assertRaises(ValueError) as err:
             self.sq2.size = -3
@@ -271,7 +271,7 @@ class TestDisplayOnSquare(unittest.TestCase):
 
 
 class TestSaveToFileOnSquare(unittest.TestCase):
-    """Tests the `save_to_file()` class method on Rectangle objects."""
+    """Tests the `save_to_file()` class method on Square objects."""
 
     def setUp(self) -> None:
         try:
@@ -287,7 +287,7 @@ class TestSaveToFileOnSquare(unittest.TestCase):
 
     def test_save_to_file_none_arg(self) -> None:
         """
-        Tests the `save_to_file()` class method on a rectangle, argument passed
+        Tests the `save_to_file()` class method on a square, argument passed
         is None.
         """
         Square.save_to_file(None)
@@ -301,7 +301,7 @@ class TestSaveToFileOnSquare(unittest.TestCase):
 
     def test_save_to_file_valid_data(self) -> None:
         """
-        Tests the `save_to_file()` class method on a rectangle, argument passed
+        Tests the `save_to_file()` class method on a square, argument passed
         is a list of two dictionaries.
         """
         sq1 = Square(size=10, x=7, y=2, id=8)
@@ -376,3 +376,58 @@ class TestFromJsonStringOnSquare(unittest.TestCase):
 
         expected_result = [{"id": 2, "x": 2, "size": 10, "y": 3}]
         self.assertEqual(Square.from_json_string(json_str), expected_result)
+
+
+class TestInstantiationErrors(unittest.TestCase):
+    """
+    Tests multiple errors that occur during Square object instantiation.
+    """
+
+    def test_invalid_init_size_str_value(self) -> None:
+        """
+        Tests string values passed as `size` during object instantiation.
+        """
+        with self.assertRaisesRegex(TypeError, "width must be an integer"):
+            Square(size="1")
+
+    def test_negative_init_size_value(self) -> None:
+        """
+        Tests negative values passed as `size` during object instantiation.
+        """
+        with self.assertRaisesRegex(ValueError, "width must be > 0"):
+            Square(size=-3)
+
+    def test_init_zero_width_value(self) -> None:
+        """
+        Tests zero values given as `size` during during object instantiation.
+        """
+        with self.assertRaisesRegex(ValueError, "width must be > 0"):
+            Square(size=0)
+
+    def test_invalid_init_x_value(self) -> None:
+        """
+        Tests string values passed as `x` during object instantiation.
+        """
+        with self.assertRaisesRegex(TypeError, "x must be an integer"):
+            Square(size=3, x="1")
+
+    def test_invalid_init_y_value(self) -> None:
+        """
+        Tests string values passed as `y` during object instantiation.
+        """
+        with self.assertRaisesRegex(TypeError, "y must be an integer"):
+            Square(size=3, x=1, y="2")
+
+    def test_negative_init_x_value(self) -> None:
+        """
+        Tests negative values passed as `x` during object instantiation.
+        """
+        with self.assertRaisesRegex(ValueError, "x must be >= 0"):
+            Square(size=3, x=-4)
+
+    def test_negative_init_y_value(self) -> None:
+        """
+        Tests negative values passed as `y` during object instantiation.
+        """
+        with self.assertRaisesRegex(ValueError, "y must be >= 0"):
+            Square(size=3, x=3, y=-4)
