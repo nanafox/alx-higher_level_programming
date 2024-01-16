@@ -23,76 +23,6 @@ class TestRectangle(unittest.TestCase):
         """Resets the values before the next test."""
         pass
 
-    def test_invalid_init_width_str_value(self) -> None:
-        """
-        Tests string values passed as `width` during object instantiation.
-        """
-        with self.assertRaisesRegex(TypeError, "width must be an integer"):
-            Rectangle(width="1", height=2)
-
-    def test_invalid_init_height_str_value(self) -> None:
-        """
-        STests string values passed as `height` during object instantiation.
-        """
-        with self.assertRaisesRegex(TypeError, "height must be an integer"):
-            Rectangle(width=1, height="2")
-
-    def test_negative_init_width_value(self) -> None:
-        """
-        Tests negative values passed as `width` during object instantiation.
-        """
-        with self.assertRaisesRegex(ValueError, "width must be > 0"):
-            Rectangle(width=-3, height=2)
-
-    def test_negative_init_height_value(self) -> None:
-        """
-        Tests negative values passed as `height` during object instantiation.
-        """
-        with self.assertRaisesRegex(ValueError, "height must be > 0"):
-            Rectangle(width=3, height=-2)
-
-    def test_init_zero_width_value(self) -> None:
-        """
-        Tests zero values given as `width` during during object instantiation.
-        """
-        with self.assertRaisesRegex(ValueError, "width must be > 0"):
-            Rectangle(width=0, height=2)
-
-    def test_init_zero_height_value(self) -> None:
-        """
-        Tests zero values given as `height` during during object instantiation.
-        """
-        with self.assertRaisesRegex(ValueError, "height must be > 0"):
-            Rectangle(width=2, height=0)
-
-    def test_invalid_init_x_value(self) -> None:
-        """
-        Tests string values passed as `x` during object instantiation.
-        """
-        with self.assertRaisesRegex(TypeError, "x must be an integer"):
-            Rectangle(width=3, height=2, x="1")
-
-    def test_invalid_init_y_value(self) -> None:
-        """
-        Tests string values passed as `y` during object instantiation.
-        """
-        with self.assertRaisesRegex(TypeError, "y must be an integer"):
-            Rectangle(width=3, height=2, x=1, y="2")
-
-    def test_negative_init_x_value(self) -> None:
-        """
-        Tests negative values passed as `x` during object instantiation.
-        """
-        with self.assertRaisesRegex(ValueError, "x must be >= 0"):
-            Rectangle(width=3, height=2, x=-4)
-
-    def test_negative_init_y_value(self) -> None:
-        """
-        Tests negative values passed as `y` during object instantiation.
-        """
-        with self.assertRaisesRegex(ValueError, "y must be >= 0"):
-            Rectangle(width=3, height=2, x=3, y=-4)
-
     # Test for missing positional arguments
 
     def test_missing_positional_width_arg(self):
@@ -408,6 +338,82 @@ class TestRectangle(unittest.TestCase):
 
         self.assertEqual(self.r1.to_dictionary(), expected_result_r1)
         self.assertEqual(self.r3.to_dictionary(), expected_result_r3)
+
+
+class TestInstantiationErrors(unittest.TestCase):
+    """
+    Tests multiple errors that occur during Rectangle object instantiation.
+    """
+
+    def test_invalid_init_width_str_value(self) -> None:
+        """
+        Tests string values passed as `width` during object instantiation.
+        """
+        with self.assertRaisesRegex(TypeError, "width must be an integer"):
+            Rectangle(width="1", height=2)
+
+    def test_invalid_init_height_str_value(self) -> None:
+        """
+        STests string values passed as `height` during object instantiation.
+        """
+        with self.assertRaisesRegex(TypeError, "height must be an integer"):
+            Rectangle(width=1, height="2")
+
+    def test_negative_init_width_value(self) -> None:
+        """
+        Tests negative values passed as `width` during object instantiation.
+        """
+        with self.assertRaisesRegex(ValueError, "width must be > 0"):
+            Rectangle(width=-3, height=2)
+
+    def test_negative_init_height_value(self) -> None:
+        """
+        Tests negative values passed as `height` during object instantiation.
+        """
+        with self.assertRaisesRegex(ValueError, "height must be > 0"):
+            Rectangle(width=3, height=-2)
+
+    def test_init_zero_width_value(self) -> None:
+        """
+        Tests zero values given as `width` during during object instantiation.
+        """
+        with self.assertRaisesRegex(ValueError, "width must be > 0"):
+            Rectangle(width=0, height=2)
+
+    def test_init_zero_height_value(self) -> None:
+        """
+        Tests zero values given as `height` during during object instantiation.
+        """
+        with self.assertRaisesRegex(ValueError, "height must be > 0"):
+            Rectangle(width=2, height=0)
+
+    def test_invalid_init_x_value(self) -> None:
+        """
+        Tests string values passed as `x` during object instantiation.
+        """
+        with self.assertRaisesRegex(TypeError, "x must be an integer"):
+            Rectangle(width=3, height=2, x="1")
+
+    def test_invalid_init_y_value(self) -> None:
+        """
+        Tests string values passed as `y` during object instantiation.
+        """
+        with self.assertRaisesRegex(TypeError, "y must be an integer"):
+            Rectangle(width=3, height=2, x=1, y="2")
+
+    def test_negative_init_x_value(self) -> None:
+        """
+        Tests negative values passed as `x` during object instantiation.
+        """
+        with self.assertRaisesRegex(ValueError, "x must be >= 0"):
+            Rectangle(width=3, height=2, x=-4)
+
+    def test_negative_init_y_value(self) -> None:
+        """
+        Tests negative values passed as `y` during object instantiation.
+        """
+        with self.assertRaisesRegex(ValueError, "y must be >= 0"):
+            Rectangle(width=3, height=2, x=3, y=-4)
 
 
 class TestDisplayOnRectangle(unittest.TestCase):
