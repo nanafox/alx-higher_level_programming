@@ -324,3 +324,55 @@ class TestSaveToFileOnSquare(unittest.TestCase):
         """
         with self.assertRaises(TypeError):
             Square.save_to_file([4, "54"])
+
+
+class TestFromJsonStringOnSquare(unittest.TestCase):
+    """Tests the `from_json_string() static method on Square objects."""
+
+    def setUp(self) -> None:
+        self.sq1 = Square(size=5, id=1)
+        self.sq2 = Square(size=10, x=2, y=3, id=2)
+
+    def test_from_json_to_string_none_arg(self) -> None:
+        """Tests for empty lists when None is passed as argument."""
+        self.assertEqual(Square.from_json_string(None), [])
+
+    def test_from_json_to_string_non_json_string(self) -> None:
+        """Tests encoding errors for non-JSON strings."""
+        with self.assertRaises(json.decoder.JSONDecodeError):
+            Square.from_json_string("Hello")
+
+    def test_from_json_string_integer_arg(self) -> None:
+        """Tests for TypeError raised when an integer is passed as argument."""
+        with self.assertRaisesRegex(TypeError, "must be a string"):
+            Square.from_json_string(87)
+
+    def test_from_json_string_list_arg(self) -> None:
+        """Tests for TypeError raised when a list is passed as argument."""
+        with self.assertRaisesRegex(TypeError, "must be a string"):
+            Square.from_json_string(["Hello"])
+
+    def test_from_json_string_empty_list(self) -> None:
+        """Tests for when an empty list is passed as argument."""
+        self.assertEqual(Square.from_json_string("[]"), [])
+
+    def test_from_json_string_size_only_set(self) -> None:
+        """
+        Tests for when a valid JSON string is passed with only the size set.
+        """
+        dictionary = self.sq1.to_dictionary()
+        json_str = Square.to_json_string([dictionary])
+
+        expected_result = [{"id": 1, "x": 0, "size": 5, "y": 0}]
+        self.assertEqual(Square.from_json_string(json_str), expected_result)
+
+    def test_from_json_string_size_xy_set(self) -> None:
+        """
+        Tests for when a valid JSON string is passed with the size,
+        x, and y values set.
+        """
+        dictionary = self.sq2.to_dictionary()
+        json_str = Square.to_json_string([dictionary])
+
+        expected_result = [{"id": 2, "x": 2, "size": 10, "y": 3}]
+        self.assertEqual(Square.from_json_string(json_str), expected_result)
