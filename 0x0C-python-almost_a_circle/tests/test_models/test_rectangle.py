@@ -569,7 +569,67 @@ class TestSaveToFileOnRectangle(unittest.TestCase):
 
     def test_save_to_file_attribute_error(self) -> None:
         """
-        Tests AttributeError exceptions raise for non-Square objects in list.
+        Tests AttributeError exceptions raise for non-Rectangle objects in list
         """
         with self.assertRaises(AttributeError):
             Rectangle.save_to_file([4, "54"])
+
+
+class TestFromJsonStringOnSquare(unittest.TestCase):
+    """Tests the `from_json_string() static method on Rectangle objects."""
+
+    def setUp(self) -> None:
+        self.r1 = Rectangle(width=3, height=6, id=1)
+        self.r2 = Rectangle(width=10, height=5, x=2, y=3, id=2)
+
+    def test_from_json_to_string_none_arg(self) -> None:
+        """Tests for empty lists when None is passed as argument."""
+        self.assertEqual(Rectangle.from_json_string(None), [])
+
+    def test_from_json_to_string_non_json_string(self) -> None:
+        """Tests encoding errors for non-JSON strings."""
+        with self.assertRaises(json.decoder.JSONDecodeError):
+            Rectangle.from_json_string("Hello")
+
+    def test_from_json_string_integer_arg(self) -> None:
+        """Tests for TypeError raised when an integer is passed as argument."""
+        with self.assertRaisesRegex(TypeError, "must be a string"):
+            Rectangle.from_json_string(87)
+
+    def test_from_json_string_list_arg(self) -> None:
+        """Tests for TypeError raised when a list is passed as argument."""
+        with self.assertRaisesRegex(TypeError, "must be a string"):
+            Rectangle.from_json_string(["Hello"])
+
+    def test_from_json_string_empty_list(self) -> None:
+        """Tests for when an empty list is passed as argument."""
+        self.assertEqual(Rectangle.from_json_string("[]"), [])
+
+    def test_from_json_string_size_only_set(self) -> None:
+        """
+        Tests for when a valid JSON string is passed with only the size set.
+        """
+        dictionary = self.r1.to_dictionary()
+        json_str = Rectangle.to_json_string([dictionary])
+
+        expected_result = [{"x": 0, "y": 0, "id": 1, "height": 6, "width": 3}]
+        self.assertEqual(Rectangle.from_json_string(json_str), expected_result)
+
+    def test_from_json_string_size_xy_set(self) -> None:
+        """
+        Tests for when a valid JSON string is passed with the size,
+        x, and y values set.
+        """
+        dictionary = self.r2.to_dictionary()
+        json_str = Rectangle.to_json_string([dictionary])
+
+        expected_result = [{"x": 2, "y": 3, "id": 2, "height": 5, "width": 10}]
+        self.assertEqual(Rectangle.from_json_string(json_str), expected_result)
+
+    def test_from_json_string_none_arg(self) -> None:
+        """Tests for None type args passed to `from_json_string()` method."""
+        self.assertEqual(Rectangle.from_json_string(None), [])
+
+    def test_from_json_string_empty_list(self) -> None:
+        """Tests for empty lists passed to `from_json_string()` method."""
+        self.assertEqual(Rectangle.from_json_string(None), [])
