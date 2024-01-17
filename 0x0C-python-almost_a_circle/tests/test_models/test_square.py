@@ -294,8 +294,7 @@ class TestSaveToFileOnSquare(unittest.TestCase):
 
         try:
             with open("Square.json", "r") as json_file:
-                json_content = json_file.read()
-                self.assertEqual(json_content, str(json.loads(json_content)))
+                self.assertEqual(json_file.read(), "[]")
         except FileNotFoundError:
             pass
 
@@ -315,14 +314,13 @@ class TestSaveToFileOnSquare(unittest.TestCase):
 
         with open("Square.json", "r") as json_file:
             json_content = json_file.read()
-            self.assertEqual(result, json.loads(json_content))
+            self.assertEqual(json.dumps(result), json_content)
 
-    def test_save_to_file_type_error(self) -> None:
+    def test_save_to_file_attribute_error(self) -> None:
         """
-        Tests TypeError exceptions raised when an object other than one that
-        inherits from the `Base` class is passed as an argument.
+        Tests AttributeError exceptions raise for non-Square objects in list.
         """
-        with self.assertRaises(TypeError):
+        with self.assertRaises(AttributeError):
             Square.save_to_file([4, "54"])
 
 

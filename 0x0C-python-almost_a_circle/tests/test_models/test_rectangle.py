@@ -545,8 +545,7 @@ class TestSaveToFileOnRectangle(unittest.TestCase):
 
         try:
             with open("Rectangle.json", "r") as json_file:
-                json_content = json_file.read()
-                self.assertEqual(json_content, str(json.loads(json_content)))
+                self.assertEqual(json_file.read(), "[]")
         except FileNotFoundError:
             pass
 
@@ -568,10 +567,9 @@ class TestSaveToFileOnRectangle(unittest.TestCase):
             json_content = json_file.read()
             self.assertEqual(result, json.loads(json_content))
 
-    def test_save_to_file_type_error(self) -> None:
+    def test_save_to_file_attribute_error(self) -> None:
         """
-        Tests TypeError exceptions raised when an object other than one that
-        inherits from the `Base` class is passed as an argument.
+        Tests AttributeError exceptions raise for non-Square objects in list.
         """
-        with self.assertRaises(TypeError):
+        with self.assertRaises(AttributeError):
             Rectangle.save_to_file([4, "54"])
