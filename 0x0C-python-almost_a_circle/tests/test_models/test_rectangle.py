@@ -625,3 +625,88 @@ class TestFromJsonStringOnSquare(unittest.TestCase):
 
         expected_result = [{"x": 2, "y": 3, "id": 2, "height": 5, "width": 10}]
         self.assertEqual(Rectangle.from_json_string(json_str), expected_result)
+
+
+class TestCreateOnRectangle(unittest.TestCase):
+    """Tests the `create()` class method on Rectangle objects."""
+
+    def test_create_success_from_object(self) -> None:
+        """Tests the creation of Rectangle objects from existing objects."""
+        r1 = Rectangle(width=4, height=6, id=4)
+        r2 = Rectangle.create(**r1.to_dictionary())
+
+        self.assertNotEqual(r1, r2)
+        self.assertFalse(r1 is r2)
+
+        expected_result = {"x": 0, "y": 0, "id": 4, "height": 6, "width": 4}
+        self.assertEqual(r2.to_dictionary(), expected_result)
+
+        # update it's 'id' attribute and test again
+        r2.id = 12
+        self.assertEqual(r2.id, 12)
+
+    def test_create_update_id_only(self) -> None:
+        """Tests the creation of objects and changing the `id` field only."""
+        r1 = Rectangle.create(**{"id": 12})
+
+        expected_result = {"x": 0, "y": 0, "id": 12, "height": 8, "width": 4}
+        self.assertEqual(r1.to_dictionary(), expected_result)
+
+    def test_create_update_x_only(self) -> None:
+        """Tests the creation of objects and changing the `x` field only."""
+        r1 = Rectangle.create(**{"x": 10})
+
+        expected_result = {
+            "x": 10,
+            "y": 0,
+            "id": r1.id,
+            "height": 8,
+            "width": 4,
+        }
+        self.assertEqual(r1.to_dictionary(), expected_result)
+
+    def test_create_update_y_only(self) -> None:
+        """Tests the creation of objects and changing the `y` field only."""
+        r1 = Rectangle.create(**{"y": 5})
+
+        exp_result = {"x": 0, "y": 5, "id": r1.id, "height": 8, "width": 4}
+        self.assertEqual(r1.to_dictionary(), exp_result)
+
+    def test_create_update_two_attributes(self) -> None:
+        """
+        Tests the creation of objects and changing the `id` and `width`
+        fields only.
+        """
+        r1 = Rectangle.create(**{"id": 12, "width": 5})
+
+        expected_result = {"x": 0, "y": 0, "id": 12, "height": 8, "width": 5}
+        self.assertEqual(r1.to_dictionary(), expected_result)
+
+    def test_create_update_three_attributes(self) -> None:
+        """
+        Tests the creation of objects and changing the `id` and `width`, and
+        `height` fields only.
+        """
+        r1 = Rectangle.create(**{"id": 12, "width": 5, "height": 10})
+
+        expected_result = {"x": 0, "y": 0, "id": 12, "height": 10, "width": 5}
+        self.assertEqual(r1.to_dictionary(), expected_result)
+
+    def test_create_update_four_attributes(self) -> None:
+        """
+        Tests the creation of objects and changing the `id` and `width`, and
+        `height` and `x` fields only.
+        """
+        r1 = Rectangle.create(**{"id": 12, "width": 5, "height": 10, "x": 10})
+
+        expected_result = {"x": 10, "y": 0, "id": 12, "height": 10, "width": 5}
+        self.assertEqual(r1.to_dictionary(), expected_result)
+
+    def test_create_all_fields(self) -> None:
+        """Tests the creation of objects and changing the all fields."""
+        r1 = Rectangle.create(
+            **{"y": 5, "x": 10, "width": 5, "height": 10, "id": 12}
+        )
+
+        expected_result = {"x": 10, "y": 5, "id": 12, "height": 10, "width": 5}
+        self.assertEqual(r1.to_dictionary(), expected_result)
