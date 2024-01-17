@@ -129,3 +129,34 @@ class TestBaseClass(unittest.TestCase):
             "to_json_string() missing 1 required positional argument: "
             "'list_dictionaries'",
         )
+
+
+class TestFromJsonStringBase(unittest.TestCase):
+    """Tests the `from_json_string() static method on Base."""
+
+    def test_from_json_to_string_none_arg(self) -> None:
+        """Tests for empty lists when None is passed as argument."""
+        self.assertEqual(Base.from_json_string(None), [])
+
+    def test_from_json_string_empty_list(self) -> None:
+        """Tests for when an empty list is passed as argument."""
+        self.assertEqual(Base.from_json_string("[]"), [])
+
+    def test_from_json_to_string_non_json_string(self) -> None:
+        """Tests encoding errors for non-JSON strings."""
+        with self.assertRaises(json.decoder.JSONDecodeError):
+            Base.from_json_string("Hello")
+
+    def test_from_json_string_integer_arg(self) -> None:
+        """Tests for TypeError raised when an integer is passed as argument."""
+        with self.assertRaisesRegex(TypeError, "must be a string"):
+            Base.from_json_string(87)
+
+    def test_from_json_string_list_arg(self) -> None:
+        """Tests for TypeError raised when a list is passed as argument."""
+        with self.assertRaisesRegex(TypeError, "must be a string"):
+            Base.from_json_string(["Hello"])
+
+    def test_from_json_string_valid_data(self) -> None:
+        """Tests for valid data passed to `from_json_string_method`."""
+        self.assertEqual(Base.from_json_string('[{"id": 5}]'), [{"id": 5}])
