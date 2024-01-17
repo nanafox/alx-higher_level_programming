@@ -509,3 +509,35 @@ class TestCreateOnSquare(unittest.TestCase):
 
         expected_result = {"x": 10, "id": 12, "y": 5, "size": 5}
         self.assertEqual(sq1.to_dictionary(), expected_result)
+
+
+class TestLoadFromFileOnSquare(unittest.TestCase):
+    """Tests the `load_from_file()` class method on Square objects."""
+
+    def test_file_not_exit(self) -> None:
+        """Tests return value for non_existing file."""
+        try:
+            os.remove("Square.json")
+        except Exception:
+            pass
+
+        self.assertEqual(Square.load_from_file(), [])
+
+    def test_file_exists(self) -> None:
+        """Tests return value for existing file."""
+        r1 = Square(size=8, x=2, y=2, id=12)
+
+        Square.save_to_file([r1])
+
+        try:
+            with open("Square.json", "r"):
+                instances = Square.load_from_file()
+        except Exception:
+            pass
+        else:
+            # check the number of instances returned, must be one
+            self.assertEqual(len(instances), 1)
+
+            # test the expected string representation for the one instance
+            r2 = instances[0]
+            self.assertEqual(r2.__str__(), "[Square] (12) 2/2 - 8")
