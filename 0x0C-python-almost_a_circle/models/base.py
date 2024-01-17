@@ -72,29 +72,20 @@ class Base:
             of the `Base` class.
         """
         if list_objs is None or len(list_objs) == 0:
-            with open(f"{cls.__name__}.json", "w", encoding="utf-8") as file:
-                file.write("[]")
+            with open(f"{cls.__name__}.json", "w") as json_file:
+                json_file.write("[]")
 
             return
 
-        dict_of_objs = {}
+        if cls.__name__ not in ["Rectangle", "Square"]:
+            raise TypeError("invalid object type")
 
-        for obj in list_objs:
-            if not isinstance(obj, Base):
-                raise TypeError(
-                    "list_objs must be a list of objects who inherit from Base"
-                )
-
-            class_name = obj.__class__.__name__
-            if class_name not in dict_of_objs:
-                dict_of_objs[class_name] = []
-
-            dict_of_objs[class_name].append(obj.to_dictionary())
-
-        for class_name, list_dictionaries in dict_of_objs.items():
-            json_dictionary = cls.to_json_string(list_dictionaries)
-            with open(f"{class_name}.json", "w", encoding="utf-8") as file:
-                json.dump(json.loads(json_dictionary), file)
+        try:
+            with open(f"{cls.__name__}.json", "w") as json_file:
+                list_dictionaries = [obj.to_dictionary() for obj in list_objs]
+                json_file.write(cls.to_json_string(list_dictionaries))
+        except FileNotFoundError:
+            pass
 
     @staticmethod
     def from_json_string(json_string: str) -> list:
