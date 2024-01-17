@@ -298,6 +298,19 @@ class TestSaveToFileOnSquare(unittest.TestCase):
         except FileNotFoundError:
             pass
 
+    def test_save_to_file_empty_list(self) -> None:
+        """
+        Tests the `save_to_file()` class method on a square, argument passed
+        is an empty list.
+        """
+        Square.save_to_file([])
+
+        try:
+            with open("Square.json", "r") as json_file:
+                self.assertEqual(json_file.read(), "[]")
+        except FileNotFoundError:
+            pass
+
     def test_save_to_file_valid_data(self) -> None:
         """
         Tests the `save_to_file()` class method on a square, argument passed
