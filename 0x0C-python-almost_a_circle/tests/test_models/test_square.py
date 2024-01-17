@@ -375,6 +375,14 @@ class TestFromJsonStringOnSquare(unittest.TestCase):
         expected_result = [{"id": 2, "x": 2, "size": 10, "y": 3}]
         self.assertEqual(Square.from_json_string(json_str), expected_result)
 
+    def test_from_json_string_none_arg(self) -> None:
+        """Tests for None type args passed to `from_json_string()` method."""
+        self.assertEqual(Square.from_json_string(None), [])
+
+    def test_from_json_string_empty_list(self) -> None:
+        """Tests for empty lists passed to `from_json_string()` method."""
+        self.assertEqual(Square.from_json_string(None), [])
+
 
 class TestSquareInstantiationErrors(unittest.TestCase):
     """
