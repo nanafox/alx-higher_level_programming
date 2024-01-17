@@ -429,3 +429,70 @@ class TestSquareInstantiationErrors(unittest.TestCase):
         """
         with self.assertRaisesRegex(ValueError, "y must be >= 0"):
             Square(size=3, x=3, y=-4)
+
+
+class TestCreateOnSquare(unittest.TestCase):
+    """Tests the `create()` class method on Square objects."""
+
+    def test_create_success_from_object(self) -> None:
+        """Tests the creation of Square objects from existing objects."""
+        sq1 = Square(size=5, id=4)
+        sq2 = Square.create(**sq1.to_dictionary())
+
+        self.assertNotEqual(sq1, sq2)
+        self.assertFalse(sq1 is sq2)
+
+        expected_result = {"id": 4, "x": 0, "size": 5, "y": 0}
+        self.assertEqual(sq2.to_dictionary(), expected_result)
+
+        # update it's 'id' attribute and test again
+        sq2.id = 12
+        self.assertEqual(sq2.id, 12)
+
+    def test_create_update_id_only(self) -> None:
+        """Tests the creation of objects and changing the `id` field only."""
+        sq1 = Square.create(**{"id": 12})
+
+        expected_result = {"x": 0, "id": 12, "y": 0, "size": 8}
+        self.assertEqual(sq1.to_dictionary(), expected_result)
+
+    def test_create_update_x_only(self) -> None:
+        """Tests the creation of objects and changing the `x` field only."""
+        sq1 = Square.create(**{"x": 10})
+
+        expected_result = {"x": 10, "id": sq1.id, "y": 0, "size": 8}
+        self.assertEqual(sq1.to_dictionary(), expected_result)
+
+    def test_create_update_y_only(self) -> None:
+        """Tests the creation of objects and changing the `y` field only."""
+        sq1 = Square.create(**{"y": 5})
+
+        expected_result = {"x": 0, "id": sq1.id, "y": 5, "size": 8}
+        self.assertEqual(sq1.to_dictionary(), expected_result)
+
+    def test_create_update_two_attributes(self) -> None:
+        """
+        Tests the creation of objects and changing the `id` and `size`
+        fields only.
+        """
+        sq1 = Square.create(**{"id": 12, "size": 5})
+
+        expected_result = {"x": 0, "id": 12, "y": 0, "size": 5}
+        self.assertEqual(sq1.to_dictionary(), expected_result)
+
+    def test_create_update_three_attributes(self) -> None:
+        """
+        Tests the creation of objects and changing the `id` and `size`, and
+        `x` fields only.
+        """
+        sq1 = Square.create(**{"id": 12, "size": 5, "x": 10})
+
+        expected_result = {"x": 10, "id": 12, "y": 0, "size": 5}
+        self.assertEqual(sq1.to_dictionary(), expected_result)
+
+    def test_create_all_fields(self) -> None:
+        """Tests the creation of objects and changing the all fields."""
+        sq1 = Square.create(**{"id": 12, "size": 5, "x": 10, "y": 5})
+
+        expected_result = {"x": 10, "id": 12, "y": 5, "size": 5}
+        self.assertEqual(sq1.to_dictionary(), expected_result)
