@@ -723,3 +723,35 @@ class TestCreateOnRectangle(unittest.TestCase):
 
         expected_result = {"x": 10, "y": 5, "id": 12, "height": 10, "width": 5}
         self.assertEqual(r1.to_dictionary(), expected_result)
+
+
+class TestLoadFromFileOnRectangle(unittest.TestCase):
+    """Tests the `load_from_file()` class method on Rectangle objects."""
+
+    def test_file_not_exit(self) -> None:
+        """Tests return value for non_existing file."""
+        try:
+            os.remove("Rectangle.json")
+        except Exception:
+            pass
+
+        self.assertEqual(Rectangle.load_from_file(), [])
+
+    def test_file_exists(self) -> None:
+        """Tests return value for existing file."""
+        r1 = Rectangle(width=4, height=8, x=2, y=2, id=12)
+
+        Rectangle.save_to_file([r1])
+
+        try:
+            with open("Rectangle.json", "r"):
+                instances = Rectangle.load_from_file()
+        except Exception:
+            pass
+        else:
+            # check the number of instances returned, must be one
+            self.assertEqual(len(instances), 1)
+
+            # test the expected string representation for the one instance
+            r2 = instances[0]
+            self.assertEqual(r2.__str__(), "[Rectangle] (12) 2/2 - 4/8")
