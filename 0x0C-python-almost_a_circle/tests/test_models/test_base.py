@@ -121,14 +121,12 @@ class TestBaseClass(unittest.TestCase):
         )
 
     def test_no_args_to_json_string(self) -> None:
-        with self.assertRaises(TypeError) as err:
-            Base.to_json_string()
-
-        self.assertEqual(
-            err.exception.__str__(),
-            "to_json_string() missing 1 required positional argument: "
-            "'list_dictionaries'",
+        exception_msg = (
+            "missing 1 required positional argument: 'list_dictionaries'"
         )
+
+        with self.assertRaisesRegex(TypeError, exception_msg):
+            Base.to_json_string()
 
 
 class TestFromJsonStringBase(unittest.TestCase):

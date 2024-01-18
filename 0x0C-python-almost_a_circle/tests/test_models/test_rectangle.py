@@ -27,36 +27,27 @@ class TestRectangle(unittest.TestCase):
 
     def test_missing_positional_width_arg(self):
         """Tests for the missing width attribute when instantiating."""
-        with self.assertRaises(TypeError) as no_width:
+        with self.assertRaisesRegex(
+            TypeError, "missing 1 required positional argument: 'width'"
+        ):
             Rectangle(height=2)
-
-        self.assertEqual(
-            no_width.exception.__str__(),
-            "__init__() missing 1 required positional argument: 'width'",
-        )
 
     def test_missing_positional_height_arg(self):
         """Tests for the missing height attribute when instantiating."""
-        with self.assertRaises(TypeError) as no_height:
+        with self.assertRaisesRegex(
+            TypeError, "missing 1 required positional argument: 'height'"
+        ):
             Rectangle(width=10)
-
-        self.assertEqual(
-            no_height.exception.__str__(),
-            "__init__() missing 1 required positional argument: 'height'",
-        )
 
     def test_missing_positional_args(self):
         """
         Tests for the missing width and height attributes when instantiating.
         """
-        with self.assertRaises(TypeError) as no_height_width:
+        with self.assertRaisesRegex(
+            TypeError,
+            "missing 2 required positional arguments: 'width' and 'height'",
+        ):
             Rectangle()
-
-        self.assertEqual(
-            no_height_width.exception.__str__(),
-            "__init__() missing 2 required positional arguments: "
-            "'width' and 'height'",
-        )
 
     # Test for expected behavior when the attributes are correctly set.
 
