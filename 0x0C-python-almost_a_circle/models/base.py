@@ -174,6 +174,7 @@ class Base:
                 raise TypeError("incompatible object type")
 
             writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
+            writer.writeheader()
             for obj in list_objs:
                 writer.writerow(obj.to_dictionary())
 
@@ -190,6 +191,7 @@ class Base:
             file_name = f"{cls.__name__}.csv"
             if os.path.exists(file_name):
                 with open(file_name, "r", newline="") as csv_file:
+                    rows = []
                     if cls.__name__ == "Rectangle":
                         fieldnames = ["id", "width", "height", "x", "y"]
                     elif cls.__name__ == "Square":
@@ -197,16 +199,13 @@ class Base:
                     elif not issubclass(cls, Base):
                         raise TypeError("Incompatible object type")
 
-                    list_dictionaries = csv.DictReader(
-                        csv_file, fieldnames=fieldnames
-                    )
+                    reader = csv.DictReader(csv_file)
+                    for row in reader:
+                        for data in row:
+                            row[data] = int(row[data])
+                        rows.append(row)
 
-                    list_dictionaries = [
-                        dict((k, int(v)) for k, v in d.items())
-                        for d in list_dictionaries
-                    ]
-
-                    instances = [cls.create(**d) for d in list_dictionaries]
+                    instances = [cls.create(**obj) for obj in rows]
         except FileNotFoundError:
             return []
 
