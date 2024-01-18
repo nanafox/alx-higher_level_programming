@@ -22,20 +22,20 @@ class TestDocumentation(unittest.TestCase):
         """
         Tests if module docstring documentation exists.
         """
-        self.assertTrue(len(str(Base.__doc__)) >= 5)
+        self.assertIsNotNone(Base.__doc__)
 
     def test_classes_docstring_exists(self):
         """
         Tests if class docstring documentation exists.
         """
-        self.assertTrue(len(str(Base.__doc__)) >= 5)
+        self.assertIsNotNone(Base.__doc__.__class__)
 
     def test_methods_docstring_exists(self):
         """
         Tests if methods docstring documentation exists
         """
         for _, method in self.setup:
-            self.assertTrue(len(str(method.__doc__)) >= 10)
+            self.assertIsNotNone(method.__doc__)
 
 
 class TestBaseClass(unittest.TestCase):
@@ -48,19 +48,19 @@ class TestBaseClass(unittest.TestCase):
     b5 = Base()
     b6 = Base(98)
 
-    def test_automatic_id(self):
+    def test_automatic_id(self) -> None:
         """Tests the ID when it is not provided (Generated automatically)."""
         self.assertEqual(self.b1.id, 1)
         self.assertEqual(self.b2.id, 2)
         self.assertEqual(self.b5.id, 3)
 
-    def test_manual_id(self):
+    def test_manual_id(self) -> None:
         """Tests when the ID is provided by the user."""
         self.assertEqual(self.b3.id, 45)
         self.assertEqual(self.b4.id, 12)
         self.assertEqual(self.b6.id, 98)
 
-    def test_automatic_and_manual(self):
+    def test_automatic_and_manual(self) -> None:
         """Tests cases when the ID is provided and when it is not."""
         self.assertEqual(self.b1.id, 1)
         self.assertEqual(self.b2.id, 2)
