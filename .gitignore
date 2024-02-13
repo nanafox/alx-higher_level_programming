@@ -12,6 +12,7 @@ __*
 !Makefile
 !*.md
 !*-*?*.py
+!*.sql
 !.gitignore
 
 # ignore these
