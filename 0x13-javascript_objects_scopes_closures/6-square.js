@@ -1,25 +1,22 @@
 #!/usr/bin/node
 
-const Rectangle = require('./4-rectangle');
+const initialSquare = require('./5-square');
 
 /**
- * Defines a Square class that inherits from Rectangle
+ * Defines a Square class that inherits from Square (5-square.js)
  */
-class Square extends Rectangle {
-  constructor (size) {
-    super(size, size);
-  }
-
+class Square extends initialSquare {
   /**
    * Prints the Square using the character 'X' by default.
    * @param {string} char The character to print the square with.
    */
   charPrint (char) {
     if (char === undefined) {
-      char = 'X';
-    }
-    for (let i = 0; i < this.height; i++) {
-      console.log(char.repeat(this.width));
+      this.print();
+    } else {
+      for (let i = 0; i < this.height; i++) {
+        console.log(char.repeat(this.width));
+      }
     }
   }
 }
