@@ -17,6 +17,5 @@ __*
 !*.js
 
 # ignore these
-main.c
 _putchar.c
-*main.py
+*main.*
