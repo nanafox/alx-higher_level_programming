@@ -22,7 +22,7 @@ if __name__ == "__main__":
     # The query is written in a way that is unsafe from SQL injection
     query = """
         SELECT * FROM states
-        WHERE name = '{}'
+        WHERE name LIKE BINARY '{}'
         ORDER BY states.id;
     """.format(state_name)
 

@@ -21,7 +21,7 @@ if __name__ == "__main__":
     cursor.execute(
         """
         SELECT * FROM states
-        WHERE name LIKE 'N%'
+        WHERE name LIKE BINARY 'N%'
         ORDER BY states.id;
         """
     )
