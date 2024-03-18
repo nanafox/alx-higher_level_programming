@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-"""This script creates the State object 'California' with the City 
+"""This script creates the State object 'California' with the City
 'San Francisco' in the database `hbtn_0e_100_usa."""
 
 import sys
