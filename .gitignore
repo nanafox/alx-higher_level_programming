@@ -15,6 +15,7 @@ __*
 !*.sql
 !.gitignore
 !*.js
+!*.sh
 
 # ignore these
 _putchar.c
