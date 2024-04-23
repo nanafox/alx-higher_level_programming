@@ -16,7 +16,6 @@ function writeToFile () {
   fs.writeFile(filename, data, (err) => {
     if (err) {
       console.error(err);
-      return;
     }
   });
 }
