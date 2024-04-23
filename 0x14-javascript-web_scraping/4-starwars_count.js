@@ -1,17 +1,25 @@
 #!/usr/bin/node
 
-// This script prints the number of movies where the character “Wedge Antilles” is present.
-// This character has the ID 18.
+// This script prints the number of movies where the character “Wedge Antilles”
+// is present. This character has the ID 18.
 
 const request = require('request');
-const url = 'https://swapi-api.alx-tools.com/api/people'; // I'm cheating here :-)
-const id = 18;
+const wedgeAntilles = 'https://swapi-api.alx-tools.com/api/people/18/';
+const url = process.argv[2];
 
-request(`${url}/${id}`, (error, response, body) => {
+request(url, (error, response) => {
   if (error) {
     console.error(error);
   } else {
-    const data = JSON.parse(body);
-    console.log(data.films.length);
+    const results = JSON.parse(response.body).results;
+
+    const count = results.reduce((count, film) => {
+      if (film.characters.includes(wedgeAntilles)) {
+        count++;
+      }
+      return count;
+    }, 0);
+
+    console.log(count);
   }
 });
