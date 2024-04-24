@@ -13,13 +13,10 @@ request(url, (error, response) => {
   } else {
     const results = JSON.parse(response.body).results;
 
-    const count = results.reduce((count, film) => {
-      if (film.characters.includes(wedgeAntilles)) {
-        count++;
-      }
-      return count;
-    }, 0);
+    const count = results.filter((film) => {
+      return film.characters.includes(wedgeAntilles);
+    });
 
-    console.log(count);
+    console.log(count.length);
   }
 });
