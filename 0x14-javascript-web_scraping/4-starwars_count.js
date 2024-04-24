@@ -4,7 +4,7 @@
 // is present. This character has the ID 18.
 
 const request = require('request');
-const wedgeAntilles = 'https://swapi-api.alx-tools.com/api/people/18/';
+const wedgeAntilles = 'people/18/';
 const url = process.argv[2];
 
 request(url, (error, response) => {
@@ -14,7 +14,7 @@ request(url, (error, response) => {
     const results = JSON.parse(response.body).results;
 
     const count = results.filter((film) => {
-      return film.characters.includes(wedgeAntilles);
+      return film.characters.find((character) => character.includes(wedgeAntilles));
     });
 
     console.log(count.length);
