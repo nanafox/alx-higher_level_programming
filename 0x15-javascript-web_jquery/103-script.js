@@ -1,6 +1,6 @@
 // fetches and prints how to say “Hello” depending on the language
 
-const url = 'https://fourtonfish.com/hellosalut/?lang=';
+const url = 'https://hellosalut.stefanbohacek.dev/?lang=';
 
 $(document).ready(() => {
   $('input#btn_translate').on('click', () => {
