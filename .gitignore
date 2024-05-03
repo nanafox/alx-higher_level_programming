@@ -20,3 +20,4 @@ __*
 # ignore these
 _putchar.c
 *main.*
+node_modules/
